@@ -26,6 +26,7 @@
 \usepackage[framemethod=tikz]{mdframed}
 \usepackage{ragged2e}
 \usepackage[space]{grffile}
+\usepackage{etoolbox}
 
 \usetheme[dove]{Berlin}
 \usecolortheme{dove}
@@ -69,7 +70,12 @@
 % Match the original panel-data deck: mathematical notation is red/maroon,
 % while ordinary slide text remains in the default text color.
 \everymath\expandafter{\the\everymath\color{brightmaroon}}
-\everydisplay\expandafter{\the\everydisplay\color{brightmaroon}}
+\setbeamercolor{math text}{fg=brightmaroon}
+\setbeamercolor{math text displayed}{fg=brightmaroon}
+\AtBeginEnvironment{align}{\color{brightmaroon}}
+\AtBeginEnvironment{align*}{\color{brightmaroon}}
+\AtBeginEnvironment{equation}{\color{brightmaroon}}
+\AtBeginEnvironment{equation*}{\color{brightmaroon}}
 
 \setbeamercovered{transparent}
 \usecolortheme[RGB={10, 10, 100}]{structure}
