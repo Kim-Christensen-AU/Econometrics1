@@ -66,6 +66,11 @@
 
 \definecolor{brightmaroon}{rgb}{0.76, 0.13, 0.28}
 
+% Match the original panel-data deck: mathematical notation is red/maroon,
+% while ordinary slide text remains in the default text color.
+\everymath\expandafter{\the\everymath\color{brightmaroon}}
+\everydisplay\expandafter{\the\everydisplay\color{brightmaroon}}
+
 \setbeamercovered{transparent}
 \usecolortheme[RGB={10, 10, 100}]{structure}
 \setbeamercovered{invisible}
