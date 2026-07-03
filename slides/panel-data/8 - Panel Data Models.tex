@@ -282,7 +282,7 @@ $$
 \begin{itemize}
 \item This is known as {\bf Pooled OLS}
 \item Note that the error has the form $\epsilon_{it} = \alpha_i + u_{it}$
-\item Pooled OLS estimator $\hat\vbeta$ will be inconsistent if, for instance, $\alpha_i$ is correlated with $\vx_{it}$, i.e.\ $\E \{ \vx_{it} \epsilon_{it} \} \neq 0$
+\item Pooled OLS estimator $\hat\vbeta$ will be inconsistent if, for instance, $\alpha_i$ is correlated with $\vx_{it}$, i.e.\ $\E[\vx_{it} \epsilon_{it}] \neq 0$
 \item If $\alpha_i$ and $\vx_{it}$ are uncorrelated then the variance of $
 \epsilon_{it}$ can be estimated accordingly as a sum of two unobserved components (but we can do even better - GLS)
 \end{itemize}
@@ -318,14 +318,14 @@ $$
 \begin{itemize}
 \item $\{ \alpha_i , i=1, \dots ,N \}$ are treated as fixed unknown parameters to be estimated
 \item Consequently we have to deal with large number of parameters if $N$ is large
-\item Allows $\E \{ x_{it} \alpha_i \} \neq 0$ for some or all~$i$ and~$t$
+\item Allows $\E[x_{it} \alpha_i] \neq 0$ for some or all~$i$ and~$t$
 \end{itemize}
 \item[$\Rightarrow$] {\bf Random effects model}: 
 \begin{itemize}
 \item $\{ \alpha_i , i=1, \dots ,N \}$ are random
 \item Assume, for each~$i$ and~$t$,
 $$
-\alpha_i \sim \text{i.i.d.}(0,\sigma_{\alpha}^2),\quad \E \{x_{it}\alpha_i \} = 0
+\alpha_i \sim \text{i.i.d.}(0,\sigma_{\alpha}^2),\quad \E[x_{it}\alpha_i] = 0
 $$
 \item Instead of $N$ parameters there is only one ($\sigma_\alpha^2$)
 \item Not always easy/possible to defend this assumption in practice 
@@ -419,7 +419,7 @@ and run OLS to estimate $\valpha,\vbeta$
 \begin{enumerate}
 \item[$\Rightarrow$] The FE or within estimator requires the {\bf strict exogeneity condition}:
 $$
-\E \{ \vx_{it} u_{is} \} = 0 \text{ for all~$s$ and~$t$}
+\E[\vx_{it} u_{is}] = 0 \text{ for all~$s$ and~$t$}
 $$
 \vspace*{-\baselineskip}
 \item[$\Rightarrow$] This assumption excludes, in particular, any dependence between $\vx_{it}$ and past values of $y_{it}$
@@ -429,7 +429,7 @@ $$
 \end{itemize}
 \item[$\Rightarrow$] Covariance matrix of $\hat\vbeta_{\text{FE}}$:
 \begin{align*}
-\widehat\var \{ \hat\vbeta_{\text{FE}} \} &= \hat\sigma_u^2 \left( \sum_{i=1}^N \sum_{t=1}^T (\vx_{it} - \bar\vx_i ) (\vx_{it} - \bar\vx_i )^{\prime} \right)^{-1} \\
+\widehat\var[\hat\vbeta_{\text{FE}}] &= \hat\sigma_u^2 \left( \sum_{i=1}^N \sum_{t=1}^T (\vx_{it} - \bar\vx_i ) (\vx_{it} - \bar\vx_i )^{\prime} \right)^{-1} \\
 \hat\sigma_u^2 &= \frac{1}{N(T-1)} \sum_{i=1}^N \sum_{t=1}^T \hat{u}_{it}^2
 \quad \text{and} \quad
 \hat{u}_{it} = y_{it} - \hat\alpha_i - \vx_{it}^{\prime} \hat\vbeta_{\text{FE}}
@@ -492,7 +492,7 @@ $$
 \end{itemize}
 \item[$\Rightarrow$] First difference estimator requires {\bf weak exogeneity condition}:
 $$
-\E \{ \Delta \vx_{it} \Delta  u_{it} \} = 0 \text{ for all $t$}
+\E[\Delta \vx_{it} \Delta  u_{it}] = 0 \text{ for all $t$}
 $$
 \vspace*{-1.1\baselineskip}
 \begin{itemize}
@@ -548,8 +548,8 @@ u_{it} &\sim\text{i.i.d.}(0,\sigma_u^2)\\
 \item[$\Rightarrow$] Write model as (ignoring constant term or including it in~$\vx_i$)
 $$
 \underbrace{\vy_i}_{T\times 1} = \underbrace{\mX_i^{\prime}}_{T\times K}\underbrace{\vbeta}_{K\times 1}+\underbrace{\vvarepsilon_i}_{T\times 1}
-\quad \text{with} \quad \E \{ \vvarepsilon_i \} = \vzeros ,
-\quad \var \{ \vvarepsilon_i \} = \underbrace{\mOmega}_{T\times T}
+\quad \text{with} \quad \E[\vvarepsilon_i] = \vzeros ,
+\quad \var[\vvarepsilon_i] = \underbrace{\mOmega}_{T\times T}
 $$
 where $\vy_i = (y_{i1},\ldots,y_{iT})^{\prime}$ and $\mX_i = (\vx_{i1},\ldots,\vx_{iT})$
 \item[$\Rightarrow$] If we knew the matrix $\mOmega$ then OLS on the transformed model
@@ -571,15 +571,15 @@ $$
 \hat\vbeta_{\text{GLS}} \sim \rN \left( \vbeta , \left(\sum_{i=1}^N \mX_i \mOmega^{-1} \mX_i^{\prime} \right)^{-1}\right)
 $$
 \item[$\Rightarrow$] Also holds without normality, but then only asymptotically 
-\item[$\Rightarrow$] Follows from standard linear manipulations and by noting that $\E \{ \sum_{i=1}^N \mX_i \mOmega^{-1} \vvarepsilon_i \vvarepsilon_i^{\prime} \mOmega^{-1} \mX_i^{\prime} |\mX \} =\sum_{i=1}^N \mX_i \mOmega^{-1} \mX_i^{\prime}$
+\item[$\Rightarrow$] Follows from standard linear manipulations and by noting that $\E[\sum_{i=1}^N \mX_i \mOmega^{-1} \vvarepsilon_i \vvarepsilon_i^{\prime} \mOmega^{-1} \mX_i^{\prime} |\mX] =\sum_{i=1}^N \mX_i \mOmega^{-1} \mX_i^{\prime}$
 \item[$\Rightarrow$] So we need to find $\mOmega$....
 \end{enumerate}
 \end{frame}
 
 \begin{frame}{Random Effects: Error Covariance Matrix}
 \begin{align*}
-\mOmega = \var \{ \vvarepsilon_i  \} 
-&= \var \{ \alpha_i \viota_T + \vu_i \} \\
+\mOmega = \var[\vvarepsilon_i] 
+&= \var[\alpha_i \viota_T + \vu_i] \\
 &= \sigma_{\alpha}^2\viota_T\viota_T^{\prime} + \sigma_u^2\mI_T \\
 &= \left(
 \begin{array}{cccccc}
@@ -623,7 +623,7 @@ $$
 \item[$\Rightarrow$] Using the ``between'' estimator we can then estimate $\sigma_\alpha^2$:
 \begin{itemize}
 \item Recall the between model: $\bar{y}_i = \beta_0 + \bar\vx_i^{\prime} \vbeta +\bar\varepsilon_i$
-\item The variance of $\bar\varepsilon_i$ is $\var \{ \bar\varepsilon_i \} = \var \{ \alpha_i + \bar{u}_i \} = \sigma_\alpha^2+T^{-1}\sigma_u^2$
+\item The variance of $\bar\varepsilon_i$ is $\var[\bar\varepsilon_i] = \var[\alpha_i + \bar{u}_i] = \sigma_\alpha^2+T^{-1}\sigma_u^2$
 \item Then
 $$
 \frac{1}{N}\sum_{i=1}^N (\bar{y}_i - \hat\beta_{0,\text{B}} - \bar\vx_i^{\prime} \hat\vbeta_\text{B} )^2 
@@ -662,10 +662,10 @@ $$
 \item The clusters are independent of each other
 \item We make no assumptions about dependence within clusters
 \end{itemize}
-\item[$\Rightarrow$] The variance of OLS estimator $\hat\vbeta = \vbeta_0 + (\mX^\prime \mX )^{-1} \sum_{g=1}^G \mX_g \vu_g$ is $(\mX^\prime \mX )^{-1} \sum_{g=1}^G \mX_g \mOmega_g \mX_g^\prime  (\mX^\prime \mX )^{-1}$, where $\mOmega_g = \var \{ \vu_g \}$
+\item[$\Rightarrow$] The variance of OLS estimator $\hat\vbeta = \vbeta_0 + (\mX^\prime \mX )^{-1} \sum_{g=1}^G \mX_g \vu_g$ is $(\mX^\prime \mX )^{-1} \sum_{g=1}^G \mX_g \mOmega_g \mX_g^\prime  (\mX^\prime \mX )^{-1}$, where $\mOmega_g = \var[\vu_g]$
 \item[$\Rightarrow$] The cluster-robust variance estimator (CRVE) is
 $$
-\scalebox{0.9}{$\widehat\var \{ \hat\vbeta \} = (\mX^\prime \mX )^{-1} \displaystyle\sum_{g=1}^G \mX_g \hat\vu_g \hat\vu_g^\prime \mX_g^\prime  (\mX^\prime \mX )^{-1}$}
+\scalebox{0.9}{$\widehat\var[\hat\vbeta] = (\mX^\prime \mX )^{-1} \displaystyle\sum_{g=1}^G \mX_g \hat\vu_g \hat\vu_g^\prime \mX_g^\prime  (\mX^\prime \mX )^{-1}$}
 $$
 \vspace*{-0.6\baselineskip}
 \item[$\Rightarrow$] MacKinnon, Nielsen, Webb (2023): ``Cluster-robust inference: A guide to empirical practice'', \emph{Journal of Econometrics}
@@ -691,7 +691,7 @@ $$
 \item Under the other hypothesis, $\hat\theta_A$ is inconsistent and $\hat\theta_B$ is consistent
 \item Intuition: $\hat\theta_A$ is efficient under ideal circumstances, but not robust, and $\hat\theta_B$ is robust, but not efficient
 \end{itemize}
-\item[$\Rightarrow$] In the present setup, suppose $\E \{ u_{it} \vx_{is} \} =0$ for all $t$ and $s$, so that:
+\item[$\Rightarrow$] In the present setup, suppose $\E[u_{it} \vx_{is}] =0$ for all $t$ and $s$, so that:
 \begin{itemize}
 \item If $\alpha_i$ and $\vx_{it}$ are uncorrelated then both $\hat\vbeta_{\text{FE}}$ and $\hat\vbeta_{\text{RE}}$ are consistent, but $\hat\vbeta_{\text{RE}}$ is more efficient
 \item If $\alpha_i$ and $\vx_{it}$ are correlated then $\hat\vbeta_{\text{RE}}$ is inconsistent while $\hat\vbeta_{\text{FE}}$ is still consistent
@@ -707,10 +707,10 @@ $$
 \item[$\Rightarrow$] If $\hat\vbeta_{\text{FE}}-\hat\vbeta_{\text{RE}}$ is statistically significantly different from zero, then $\alpha_i$ and $\vx_{it}$ are correlated
 \item[$\Rightarrow$] Test statistic is
 $$
-\xi_\text{H} = (\hat\vbeta_{\text{FE}}-\hat\vbeta_{\text{RE}})^{\prime}\left(\widehat\var\{\hat\vbeta_{\text{FE}}\}-\widehat\var\{\hat\vbeta_{\text{RE}}\}\right)^{-1}(\hat\vbeta_{\text{FE}}-\hat\vbeta_{\text{RE}})
+\xi_\text{H} = (\hat\vbeta_{\text{FE}}-\hat\vbeta_{\text{RE}})^{\prime}\left(\widehat\var[\hat\vbeta_{\text{FE}}]-\widehat\var[\hat\vbeta_{\text{RE}}]\right)^{-1}(\hat\vbeta_{\text{FE}}-\hat\vbeta_{\text{RE}})
 $$
 \item[$\Rightarrow$] Under the null, $\xi_\text{H}\sim\chi^2(K)$ asymptotically, where $\chi^2 (K)$ is a chi-squared distribution with $K$ degrees of freedom
-\item[$\Rightarrow$] Note that we used the curious result that $\var\{\hat\vbeta_{\text{FE}}-\hat\vbeta_{\text{RE}}\} = \var\{\hat\vbeta_{\text{FE}}\}-\var\{\hat\vbeta_{\text{RE}}\}$ under the null
+\item[$\Rightarrow$] Note that we used the curious result that $\var[\hat\vbeta_{\text{FE}}-\hat\vbeta_{\text{RE}}] = \var[\hat\vbeta_{\text{FE}}]-\var[\hat\vbeta_{\text{RE}}]$ under the null
 \item[$\Rightarrow$] If test rejects, then use $\hat\vbeta_{\text{FE}}$, otherwise use $\hat\vbeta_{\text{RE}}$
 \end{enumerate}
 \end{frame}
