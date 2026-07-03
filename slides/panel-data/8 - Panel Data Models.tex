@@ -167,6 +167,16 @@ $$
 \end{enumerate}
 \end{frame}
 
+\begin{frame}{Four-Lecture Roadmap}\justifying
+The panel-data material is organized around four 45-minute lectures:
+\begin{enumerate}\justifying
+	\item \alert{Panel structure and pooled OLS}: notation, unobserved heterogeneity, and why pooled OLS may fail.
+	\item \alert{Fixed effects}: the within transformation, least squares dummy variables, between estimation, and first differences.
+	\item \alert{Random effects}: the random-effects assumptions, GLS intuition, feasible GLS, and efficiency.
+	\item \alert{Inference and model choice}: clustered standard errors, the Hausman test, and the Grunfeld application.
+\end{enumerate}
+\end{frame}
+
 
 %%%%%%%%%%%%%
 \section{Introduction}
@@ -174,7 +184,19 @@ $$
 
 \sectionframe{1}{Introduction}
 
-\begin{frame}{Introduction}
+\begin{frame}{Learning Objectives}\justifying
+After these lectures, you should be able to:
+\begin{enumerate}\justifying
+	\item Explain what distinguishes panel data from cross-sectional and time-series data.
+	\item Describe why unobserved individual heterogeneity can invalidate pooled OLS.
+	\item Derive and interpret the fixed-effects/within estimator.
+	\item Explain the random-effects model and the role of the GLS transformation.
+	\item Choose between pooled OLS, FE, and RE estimators in applied work.
+	\item Compute and interpret cluster-robust standard errors and the Hausman test.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Panel Data: Notation}
 \begin{enumerate}
 \item[$\Rightarrow$] A panel data set is typically denoted $$\{ y_{it}, \underbrace{\vx_{it}}_{K\times 1}, i=1,\ldots,N, t=1,\ldots,T \}$$
 \item[$\Rightarrow$] Repeated observations over the cross-sectional (individual) units~$i$ collected over several time periods~$t$
@@ -190,7 +212,7 @@ $$
 \end{enumerate}
 \end{frame}
 
-\begin{frame}{Introduction}
+\begin{frame}{Examples of Panel Data}
 \begin{enumerate}
 \item[$\Rightarrow$] Examples 
 \begin{itemize}
@@ -226,7 +248,7 @@ $$
 \end{enumerate}
 \end{frame}
 
-\begin{frame}{A standard linear static panel data model}
+\begin{frame}{A Standard Linear Static Panel Data Model}
 \begin{itemize}
 \item[$\Rightarrow$] Basic panel data model for $i=1,\ldots,N$ and $t=1,\ldots,T$,
 \begin{align*}
@@ -244,7 +266,7 @@ u_{it} &\sim \text{i.i.d.}(0,\sigma_u^2)
 \end{itemize}
 \end{frame}
 
-\begin{frame}{A standard linear static panel data model}
+\begin{frame}{Pooled OLS and the Composite Error}
 \begin{enumerate}
 \item[$\Rightarrow$] Estimation and modeling approach depends on the economic context
 \item[$\Rightarrow$] Since $\alpha_i$ is not observable, it is an important modeling decision to decide how to deal with it; could be informed by economic context
@@ -256,13 +278,13 @@ $$
 \item This is known as {\bf Pooled OLS}
 \item Note that the error has the form $\epsilon_{it} = \alpha_i + u_{it}$
 \item Pooled OLS estimator $\hat\vbeta$ will be inconsistent if, for instance, $\alpha_i$ is correlated with $\vx_{it}$, i.e.\ $\E \{ \vx_{it} \epsilon_{it} \} \neq 0$
-\item If $\alpha_i$ and $\vx_ {it}$ are uncorrelated then the variance of $
+\item If $\alpha_i$ and $\vx_{it}$ are uncorrelated then the variance of $
 \epsilon_{it}$ can be estimated accordingly as a sum of two unobserved components (but we can do even better - GLS)
 \end{itemize}
 \end{enumerate}
 \end{frame}
 
-\begin{frame}{Impact of job training on firm productivity}
+\begin{frame}{Running Example: Job Training and Firm Productivity}
 \begin{enumerate}
 \item[$\Rightarrow$] We will use this example several times
 \item[$\Rightarrow$] How effective are specifically designed training programs in terms of reducing scrap rates
@@ -277,14 +299,14 @@ $$
 \end{enumerate}
 \end{frame}
 
-\begin{frame}{Impact of job training on firm productivity}
+\begin{frame}{Running Example: Pooled OLS}
 \vspace*{-1.2cm}
 \begin{figure}
 \includegraphics[width=0.9\textwidth]{hh1.pdf}
 \end{figure}
 \end{frame}
 
-\begin{frame}{A standard linear static panel data model}
+\begin{frame}{Fixed Effects vs. Random Effects}
 \begin{enumerate}
 \item[$\Rightarrow$] There are two modeling approaches based on the assumptions on~$\alpha_i$ and their interactions with~$\vx_{it}$
 \item[$\Rightarrow$] {\bf Fixed effects model}:
@@ -307,7 +329,7 @@ $$
 \end{enumerate}
 \end{frame}
 
-\begin{frame}{A standard linear static panel data model}
+\begin{frame}{When Individual Effects Are Correlated With Regressors}
 \begin{enumerate}
 \item[$\Rightarrow$] Examples of how $\vx_{it}$ may be correlated with $\alpha_i$
 \item[$\Rightarrow$] Individual earnings equation:
@@ -332,7 +354,7 @@ $$
 
 \sectionframe{2}{Fixed Effects Model}
 
-\begin{frame}{FE model}
+\begin{frame}{Fixed Effects: Setup}
 \begin{enumerate}
 \item[$\Rightarrow$] The FE model is a linear model with intercepts that vary across individuals/units ($i$)
 $$
@@ -345,7 +367,7 @@ $$
 \end{enumerate}
 \end{frame}
 
-\begin{frame}{FE model - ``within''/FE estimator}
+\begin{frame}{The Within Transformation}
 \begin{enumerate}
 \item[$\Rightarrow$] The {\bf within transformation}:
 \begin{itemize}
@@ -370,7 +392,7 @@ $$
 \end{enumerate}
 \end{frame}
 
-\begin{frame}{FE model - ``within''/FE estimator}
+\begin{frame}{Least Squares Dummy Variables}
 \begin{enumerate}
 \item[$\Rightarrow$] Consider the least squares dummy variables (LSDV) estimator: 
 \begin{itemize}
@@ -388,7 +410,7 @@ and run OLS to estimate $\valpha,\vbeta$
 \end{enumerate}
 \end{frame}
 
-\begin{frame}{FE model - ``within''/FE estimator}
+\begin{frame}{Strict Exogeneity and FE Inference}
 \begin{enumerate}
 \item[$\Rightarrow$] The FE or within estimator requires the {\bf strict exogeneity condition}:
 $$
@@ -410,7 +432,7 @@ $$
 \end{enumerate}
 \end{frame}
 
-\begin{frame}{Impact of job training on firm productivity - FE}
+\begin{frame}{Running Example: FE Within Estimator}
 \framesubtitle{FE within estimator}
 \vspace*{-1.6cm}
 \begin{figure}
@@ -418,7 +440,7 @@ $$
 \end{figure}
 \end{frame}
 
-\begin{frame}{FE model - ``between'' estimator}
+\begin{frame}{The Between Estimator}
 \begin{enumerate}
 \item[$\Rightarrow$] A related estimator is the ``between'' estimator obtained by OLS on the time averages, i.e.\ OLS on the regression
 $$
@@ -440,7 +462,7 @@ $$
 \end{enumerate}
 \end{frame}
 
-\begin{frame}{FE model - first difference estimator}
+\begin{frame}{The First-Difference Estimator}
 \begin{enumerate}
 \item[$\Rightarrow$] The within transformation is not the only way to eliminate $\alpha_i$
 \item[$\Rightarrow$] Recall the FE model:
@@ -474,7 +496,7 @@ $$
 \end{enumerate}
 \end{frame}
 
-\begin{frame}{Impact of job training on firm productivity}
+\begin{frame}{Running Example: First Differences}
 \framesubtitle{FE first difference estimator}
 \vspace*{-1.6cm}
 \begin{figure}
@@ -489,7 +511,7 @@ $$
 
 \sectionframe{3}{Random Effects Model}
 
-\begin{frame}{RE model}
+\begin{frame}{Random Effects: Setup}
 \begin{enumerate}
 \item[$\Rightarrow$] The RE model explicitly models $\alpha_i$ as a random variable (part of the error term)
 \item[$\Rightarrow$] The RE model is thus
@@ -512,7 +534,7 @@ u_{it} &\sim\text{i.i.d.}(0,\sigma_u^2)\\
 \end{enumerate}
 \end{frame}
 
-\begin{frame}{RE model - GLS estimator}
+\begin{frame}{Random Effects: GLS Intuition}
 \begin{enumerate}
 \item[$\Rightarrow$] Hence we develop the {\bf Generalized Least Squares (GLS)} estimator that explores the particular error structure
 \item[$\Rightarrow$] Intuition behind GLS: apply OLS to a transformed data such that covariance matrix of the transformed error is an identity matrix
@@ -533,7 +555,7 @@ gives the GLS estimator
 \end{enumerate}
 \end{frame}
 
-\begin{frame}{RE model - GLS estimator}
+\begin{frame}{Random Effects: GLS Estimator}
 \begin{enumerate}
 \item[$\Rightarrow$] If we knew $\mOmega$ then 
 $$
@@ -549,7 +571,7 @@ $$
 \end{enumerate}
 \end{frame}
 
-\begin{frame}{RE model - GLS estimator}
+\begin{frame}{Random Effects: Error Covariance Matrix}
 \begin{align*}
 \mOmega = \var \{ \vvarepsilon_i  \} 
 &= \var \{ \alpha_i \viota_T + \vu_i \} \\
@@ -569,7 +591,7 @@ $$
 \end{itemize}
 \end{frame}
 
-\begin{frame}{RE model - GLS estimator}
+\begin{frame}{Random Effects: Quasi-Demeaning}
 \begin{enumerate}
 \item[$\Rightarrow$] With a ton of algebra, it is possible to show that 
 \begin{align*}
@@ -608,7 +630,7 @@ $$
 \end{enumerate}
 \end{frame}
 
-\begin{frame}{Impact of job training on firm productivity}
+\begin{frame}{Running Example: Random Effects}
 \vspace*{-1.6cm}
 \begin{figure}
 \includegraphics[width=\textwidth]{hh5.pdf}
@@ -622,7 +644,7 @@ $$
 
 \sectionframe{4}{Cluster-Robust Inference}
 
-\begin{frame}{Cluster-robust inference}
+\begin{frame}{Cluster-Robust Standard Errors}
 \begin{enumerate}
 \item[$\Rightarrow$] Textbook section 10.2.7 discusses cluster-robust inference
 \item[$\Rightarrow$] Generalization of White's heteroskedasticity-robust standard errors% (``robust'' in Stata)
@@ -652,10 +674,10 @@ $$
 
 \sectionframe{5}{FE vs. RE Models: Hausman Test}
 
-\begin{frame}{FE vs.\ RE models - Hausman test}
+\begin{frame}{FE vs.\ RE: Hausman Test Intuition}
 \begin{enumerate}
 \item[$\Rightarrow$] It is hard to choose between the FE and RE estimators
-\item[$\Rightarrow$] One criteria can be built upon whether $\alpha_i$ and $\vx_{it}$ are uncorrelated
+\item[$\Rightarrow$] One criterion can be built upon whether $\alpha_i$ and $\vx_{it}$ are uncorrelated
 \item[$\Rightarrow$] Hausman test is built on this logic 
 \item[$\Rightarrow$] General idea of a Hausman test:
 \begin{itemize}
@@ -672,7 +694,7 @@ $$
 \end{enumerate}
 \end{frame}
 
-\begin{frame}{FE vs.\ RE models - Hausman test}
+\begin{frame}{FE vs.\ RE: Hausman Test Statistic}
 \begin{enumerate}
 \item[$\Rightarrow$] Hausman test formally...
 \item[$\Rightarrow$] Under the null of the test, $\alpha_i$ and $\vx_{it}$ are uncorrelated
@@ -688,7 +710,7 @@ $$
 \end{enumerate}
 \end{frame}
 
-\begin{frame}{Impact of job training on firm productivity}
+\begin{frame}{Running Example: Hausman Test}
 \vspace*{-1.6cm}
 \begin{figure}
 \hspace*{-1.5cm}
