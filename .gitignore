@@ -1,0 +1,27 @@
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.nav
+*.out
+*.run.xml
+*.snm
+*.synctex
+*.synctex.gz
+*.toc
+*.vrb
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+*.bak
+*.tmp
+
+# Local reference/archive files not intended for GitHub
+*.zip
+slides/**/original_*.pdf
+slides/**/BadiBaltagiBook*.pdf
