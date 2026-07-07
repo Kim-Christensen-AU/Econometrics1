@@ -223,6 +223,29 @@ After these lectures, you should be able to:
 \end{enumerate}
 \end{frame}
 
+\begin{frame}{Panel Data: Data Structure}
+\centering
+\renewcommand{\arraystretch}{1.35}
+\setlength{\tabcolsep}{0.65em}
+\resizebox{0.95\textwidth}{!}{%
+\begin{tabular}{c|cccc}
+ & \multicolumn{4}{c}{\bf Time} \\
+{\bf Cross-section} & $t=1$ & $t=2$ & $\cdots$ & $t=T$ \\
+\hline
+$i=1$ & $(y_{11},\vx_{11}')$ & $(y_{12},\vx_{12}')$ & $\cdots$ & $(y_{1T},\vx_{1T}')$ \\
+$i=2$ & $(y_{21},\vx_{21}')$ & $(y_{22},\vx_{22}')$ & $\cdots$ & $(y_{2T},\vx_{2T}')$ \\
+$\vdots$ & $\vdots$ & $\vdots$ & $\ddots$ & $\vdots$ \\
+$i=N$ & $(y_{N1},\vx_{N1}')$ & $(y_{N2},\vx_{N2}')$ & $\cdots$ & $(y_{NT},\vx_{NT}')$
+\end{tabular}
+}
+
+\vspace{0.4cm}
+\begin{itemize}
+\item Each cell contains the outcome and regressors observed for unit $i$ at time $t$.
+\item A balanced panel observes all $N$ units in all $T$ periods.
+\end{itemize}
+\end{frame}
+
 \begin{frame}{Examples of Panel Data}
 \begin{enumerate}
 \item[$\Rightarrow$] Examples 
