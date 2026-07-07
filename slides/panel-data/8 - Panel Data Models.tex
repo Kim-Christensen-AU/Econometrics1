@@ -147,9 +147,9 @@ $$
 % Original panel-data slide content prepared by Morten Orregaard Nielsen.
 \author[Kim Christensen]{\textbf{Kim Christensen} \\Aarhus University \\[1ex] \texttt{}}
 
-\title[\scshape Econometrics I (Part I)]{\Large Panel Data Models}
+\title[\scshape Econometrics 1 (Part I)]{\Large Econometric Analysis of Panel Data}
 
-\subtitle{\bf Econometrics I}
+\subtitle{\bf Econometrics 1}
 
 \date{}
 
@@ -172,8 +172,8 @@ $$
 \item[] \text{\large \textcolor{brightmaroon}{\bf 1. Introduction}}
 \item[] \text{\large \textcolor{brightmaroon}{\bf 2. Fixed Effects Model}}
 \item[] \text{\large \textcolor{brightmaroon}{\bf 3. Random Effects Model}}
-\item[] \text{\large \textcolor{brightmaroon}{\bf 4. Cluster-Robust Inference}}
-\item[] \text{\large \textcolor{brightmaroon}{\bf 5. FE vs. RE Models: Hausman Test}}
+\item[] \text{\large \textcolor{brightmaroon}{\bf 4. FE or RE? The Hausman Test}}
+\item[] \text{\large \textcolor{brightmaroon}{\bf 5. Cluster-Robust Inference}}
 \item[] \text{\large \textcolor{brightmaroon}{\bf 6. Grunfeld Example}}
 \end{enumerate}
 \end{frame}
@@ -545,9 +545,9 @@ $$
 
 \sectionframe{3}{Random Effects Model}
 
-\begin{frame}{Random Effects: Setup}
+\begin{frame}{Setup}
 \begin{enumerate}
-\item[$\Rightarrow$] The RE model explicitly models $\alpha_i$ as a random variable (part of the error term)
+\item[$\Rightarrow$] In the RE model, we explicitly model $\alpha_{i}$ as a random variable (and, hence, include as part of the error term)
 \item[$\Rightarrow$] The RE model is thus
 \begin{align*}
 y_{it} &= \beta_0 + \vx_{it}' \vbeta + \alpha_i + u_{it}\\
@@ -589,23 +589,22 @@ gives the GLS estimator
 \end{enumerate}
 \end{frame}
 
-\begin{frame}{Random Effects: GLS Estimator}
+\begin{frame}{The GLS Estimator}
 \begin{enumerate}
-\item[$\Rightarrow$] If we knew $\mOmega$ then 
+\item[$\Rightarrow$] If $\mOmega$ was known, then the (efficient) GLS estimator can be computed immediately:
 $$
 \hat\vbeta_{\text{GLS}} = \left(\sum_{i=1}^N \mX_i \mOmega^{-1} \mX_i'\right)^{-1} \sum_{i=1}^N \mX_i \mOmega^{-1} \vy_i 
 $$
-\item[$\Rightarrow$] Under normality (and conditional on $\mX$),
+\item[$\Rightarrow$] Assuming the law of $\vvarepsilon_i$ is normal (conditional on $\mX$):
 $$
 \hat\vbeta_{\text{GLS}} \sim \mathcal{N} \left( \vbeta , \left(\sum_{i=1}^N \mX_i \mOmega^{-1} \mX_i' \right)^{-1}\right)
 $$
-\item[$\Rightarrow$] Also holds without normality, but then only asymptotically 
+\item[$\Rightarrow$] As usual, this also holds without normality, but then only asymptotically 
 \item[$\Rightarrow$] Follows from standard linear manipulations and by noting that $\E[\sum_{i=1}^N \mX_i \mOmega^{-1} \vvarepsilon_i \vvarepsilon_i' \mOmega^{-1} \mX_i' |\mX] =\sum_{i=1}^N \mX_i \mOmega^{-1} \mX_i'$
-\item[$\Rightarrow$] So we need to find $\mOmega$....
 \end{enumerate}
 \end{frame}
 
-\begin{frame}{Random Effects: Error Covariance Matrix}
+\begin{frame}{Error Covariance Matrix}
 \begin{align*}
 \mOmega = \var[\vvarepsilon_i] 
 &= \var[\alpha_i \viota_T + \vu_i] \\
@@ -621,11 +620,11 @@ $$
 \end{align*}
 \begin{itemize}
 \item[$\Rightarrow$] This matrix has $\sigma^2_\alpha+\sigma_u^2$ on the diagonal and $\sigma_\alpha^2$ elsewhere
-\item[$\Rightarrow$] Need estimates of $\sigma^2_\alpha$ and $\sigma_u^2$ to obtain feasible GLS estimator
+\item[$\Rightarrow$] Of course, $\sigma^2_\alpha$ and $\sigma_u^2$ are unknown in practice
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Random Effects: Quasi-Demeaning}
+\begin{frame}{Quasi-Demeaning}
 \begin{enumerate}
 \item[$\Rightarrow$] With a ton of algebra, it is possible to show that 
 \begin{align*}
@@ -636,31 +635,29 @@ where
 $$
 \psi = \frac{\sigma_u^2}{\sigma_u^2 + T \sigma_\alpha^2}
 $$
-\item[$\Rightarrow$] This is just an alternative derivation of the same estimator
-\item[$\Rightarrow$] Possible computational advantage since we don't need to invert a big $T \times T$ matrix
-\item[$\Rightarrow$] Still need estimates of $\sigma^2_\alpha$ and $\sigma_u^2$ to obtain feasible GLS estimator
+\item[$\Rightarrow$] This is merely an alternative derivation of $\hat\vbeta_{\text{GLS}}$. However, it has a possible computational advantage, since we do not invert a big $T \times T$ matrix.
+\item[$\Rightarrow$] We need to estimate $\sigma^2_\alpha$ and $\sigma_u^2$ for a feasible GLS estimator.
 \end{enumerate}
 \end{frame}
 
-\begin{frame}{RE - feasible GLS estimator}
+\begin{frame}{Feasible GLS estimator}
 \begin{enumerate}
-\item[$\Rightarrow$] Using the FE (within) estimator we can estimate $\sigma_u^2$:
+\item[$\Rightarrow$] Based on the FE (within) estimator, we can estimate $\sigma_u^2$:
 \begin{align*}
 \hat{u}_{it} &= y_{it} - \hat\alpha_i - \vx_{it}'\hat\vbeta_{\text{FE}} \\
 \hat\sigma_u^2 &= \frac{1}{N(T-1)}\sum_{i=1}^N \sum_{t=1}^T \hat{u}_{it}^2
 \end{align*}
-\item[$\Rightarrow$] Using the ``between'' estimator we can then estimate $\sigma_\alpha^2$:
+\item[$\Rightarrow$] Based on the ``between'' estimator, we can estimate $\sigma_\alpha^2$:
 \begin{itemize}
-\item Recall the between model: $\bar{y}_i = \beta_0 + \bar\vx_i' \vbeta +\bar\varepsilon_i$
-\item The variance of $\bar\varepsilon_i$ is $\var[\bar\varepsilon_i] = \var[\alpha_i + \bar{u}_i] = \sigma_\alpha^2+T^{-1}\sigma_u^2$
+\item Recall that the between model is based on $\bar{y}_i = \beta_0 + \bar\vx_i' \vbeta +\bar\varepsilon_i$. Hence, the variance of $\bar\varepsilon_i$ is $\var[\bar\varepsilon_i] = \var[\alpha_i + \bar{u}_i] = \sigma_\alpha^2+T^{-1}\sigma_u^2$
 \item Then
 $$
 \frac{1}{N}\sum_{i=1}^N (\bar{y}_i - \hat\beta_{0,\text{B}} - \bar\vx_i' \hat\vbeta_{\text{B}} )^2 
 = \hat\sigma_\alpha^2 + \frac{1}{T} \hat\sigma_u^2
 $$
-\item Solve for $\hat\sigma_\alpha^2$
+\item Plug-in $\hat\sigma_u^2$ from above and solve for $\hat\sigma_\alpha^2$
 \end{itemize}
-\item[$\Rightarrow$] Using these estimates yields the feasible GLS estimator - aka the {\bf random effects (RE) estimator}, $\hat\vbeta_{\text{RE}}$
+\item[$\Rightarrow$] The feasible GLS estimator based on the above estimates is known as the \textbf{random effects (RE) estimator}, $\hat\vbeta_{\text{RE}}$.
 \end{enumerate}
 \end{frame}
 
@@ -703,7 +700,7 @@ $$
 
 
 %%%%%%%%%%%%%%%%%
-\section{FE vs.\ RE models - Hausman test}
+\section{FE or RE? The Hausman test}
 %%%%%%%%%%%%%%%%%
 
 \sectionframe{5}{FE vs. RE Models: Hausman Test}
