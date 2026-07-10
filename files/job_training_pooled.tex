@@ -1,0 +1,21 @@
+\begin{itemize}
+\item R: lm(LSCRAP $\sim$ D88 + D89 + GRANT + GRANT\_1 + UNION)
+\end{itemize}
+
+\begin{center}
+\scriptsize
+\resizebox{0.96\textwidth}{!}{%
+\begin{tabular}{lrrrr}
+\toprule
+Variable & Estimate & Std. Error & $t$ & $P$-value \\
+\midrule
+Intercept & 0.4177 & 0.2168 & 1.9264 & $0.056$ \\
+$D88_t$ & -0.2412 & 0.3072 & -0.7853 & $0.433$ \\
+$D89_t$ & -0.4724 & 0.3341 & -1.4138 & $0.159$ \\
+$grant_{it}$ & 0.2053 & 0.3343 & 0.6141 & $0.540$ \\
+$grant_{i,t-1}$ & -0.0225 & 0.4321 & -0.0521 & $0.958$ \\
+$union_i$ & 0.5392 & 0.2465 & 2.1870 & $0.030$ \\
+\bottomrule
+\end{tabular}%
+}
+\end{center}

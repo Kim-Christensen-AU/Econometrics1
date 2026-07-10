@@ -21,7 +21,7 @@ if (length(file_arg) > 0) {
 }
 
 # --- Load data -----------------------------------------------
-df <- read.csv("Grunfeld_panel.csv")
+df <- read.csv("Grunfeld.csv")
 
 # --- Define as panel data ------------------------------------
 pdata <- pdata.frame(df, index = c("firm", "year"))
@@ -44,13 +44,7 @@ fmt <- function(x, digits = 4) {
 }
 
 fmt_p <- function(p) {
-  ifelse(p < 0.001, "$<0.001$", fmt(p, 3))
-}
-
-stars <- function(p) {
-  ifelse(p < 0.01, "$^{***}$",
-    ifelse(p < 0.05, "$^{**}$",
-      ifelse(p < 0.10, "$^{*}$", "")))
+  fmt(max(p, 0.001), 3)
 }
 
 var_label <- function(x) {
@@ -58,30 +52,33 @@ var_label <- function(x) {
   ifelse(x %in% names(labels), labels[x], x)
 }
 
-coef_table <- function(model, model_label, output_file, statistic_label) {
+coef_table <- function(model, call_text, output_file, statistic_label) {
   coefs <- coef(summary(model))
   rows <- rownames(coefs)
   stat_col <- grep("^(t|z)[ -]value$", colnames(coefs), value = TRUE)
   p_col <- grep("^Pr", colnames(coefs), value = TRUE)
 
   lines <- c(
+    "\\begin{itemize}",
+    paste0("\\item R: ", call_text),
+    "\\end{itemize}",
+    "",
     "\\begin{center}",
     "\\scriptsize",
-    paste0("\\textbf{", model_label, "}\\\\[0.15cm]"),
     "\\resizebox{0.92\\textwidth}{!}{%",
     "\\begin{tabular}{lrrrr}",
     "\\toprule",
-    paste0("Variable & Estimate & Std. Error & ", statistic_label, " & $p$-value \\\\"),
+    paste0("Variable & Estimate & Std. Error & ", statistic_label, " & $P$-value \\\\"),
     "\\midrule"
   )
 
   for (r in rows) {
     lines <- c(lines, paste0(
       var_label(r), " & ",
-      fmt(coefs[r, "Estimate"]), stars(coefs[r, p_col]), " & ",
+      fmt(coefs[r, "Estimate"]), " & ",
       fmt(coefs[r, "Std. Error"]), " & ",
       fmt(coefs[r, stat_col]), " & ",
-      fmt_p(coefs[r, p_col]), " \\\\"
+      "$", fmt_p(coefs[r, p_col]), "$ \\\\"
     ))
   }
 
@@ -154,9 +151,9 @@ hausman_table <- function(output_file) {
     "\\resizebox{0.70\\textwidth}{!}{%",
     "\\begin{tabular}{lrrr}",
     "\\toprule",
-    "Test & $\\chi^2$ & df & $p$-value \\\\",
+    "Test & $\\chi^2$ & df & $P$-value \\\\",
     "\\midrule",
-    paste0("Hausman & ", fmt(stat), " & ", df, " & ", fmt_p(p), " \\\\"),
+    paste0("Hausman & ", fmt(stat), " & ", df, " & $", fmt_p(p), "$ \\\\"),
     "\\bottomrule",
     "\\end{tabular}%",
     "}",
@@ -167,8 +164,8 @@ hausman_table <- function(output_file) {
 }
 
 # --- Write LaTeX tables --------------------------------------
-coef_table(pooled, "R output: pooled OLS, lm(i $\\sim$ f + c)", "grunfeld_pooled_table.tex", "$t$")
-coef_table(fe, "R output: fixed effects, plm(..., model = ``within'')", "grunfeld_fe_table.tex", "$t$")
-coef_table(re, "R output: random effects, plm(..., model = ``random'')", "grunfeld_re_table.tex", "$z$")
-hausman_table("grunfeld_hausman_table.tex")
-summary_table("grunfeld_summary_table.tex")
+coef_table(pooled, "lm(i $\\sim$ f + c)", "grunfeld_pooled.tex", "$t$")
+coef_table(fe, "plm(..., model = ``within'')", "grunfeld_fe.tex", "$t$")
+coef_table(re, "plm(..., model = ``random'')", "grunfeld_re.tex", "$z$")
+hausman_table("grunfeld_hausman.tex")
+summary_table("grunfeld_summary.tex")

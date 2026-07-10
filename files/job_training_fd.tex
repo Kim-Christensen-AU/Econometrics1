@@ -1,0 +1,19 @@
+\begin{itemize}
+\item R: plm(LSCRAP $\sim$ D88 + D89 + GRANT + GRANT\_1 - 1, model = ``fd'')
+\end{itemize}
+
+\begin{center}
+\scriptsize
+\resizebox{0.96\textwidth}{!}{%
+\begin{tabular}{lrrrr}
+\toprule
+Variable & Estimate & Std. Error & $t$ & $P$-value \\
+\midrule
+$D88_t$ & -0.0906 & 0.0910 & -0.9960 & $0.322$ \\
+$D89_t$ & -0.2774 & 0.1504 & -1.8450 & $0.068$ \\
+$grant_{it}$ & -0.2228 & 0.1307 & -1.7040 & $0.091$ \\
+$grant_{i,t-1}$ & -0.3512 & 0.2351 & -1.4941 & $0.138$ \\
+\bottomrule
+\end{tabular}%
+}
+\end{center}
