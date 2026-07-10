@@ -132,7 +132,7 @@ $$
 
 \author[Kim Christensen]{\textbf{Kim Christensen} \\Aarhus University \\[1ex] \texttt{}}
 
-\title[\scshape Econometrics 1 (Part I)]{\Large Panel Data Analysis}
+\title[Econometrics 1 (Part I)]{\Large Panel Data Analysis}
 
 \subtitle{\bf Econometrics 1}
 
@@ -299,7 +299,7 @@ y_{NT}
 
 \item The pooled OLS estimator is
 \begin{align*}
-\hat{ \vbeta}_{\mathrm{P}}
+\hat\vbeta_{\mathrm{P}}
 &=
 (\mX'\mX)^{-1}\mX'\vy \\
 &=
@@ -307,14 +307,14 @@ y_{NT}
 \sum_{i=1}^N \sum_{t=1}^T \vx_{it}\vx_{it}'
 \right)^{-1}
 \left(
-\sum_{i=1}^N \sum_{t=1}^T \vx_{it} \vy_{it}
+\sum_{i=1}^N \sum_{t=1}^T \vx_{it} y_{it}
 \right).
 \end{align*}
 
-\item $\hat\vbeta_{\mathrm{P}}$ is consistent if $\alpha_i$ is uncorrelated with $\vx_{it}$, i.e.\ $\E[\vx_{it} \alpha_{i}] = 0$
+\item $\hat\vbeta_{\mathrm{P}}$ is consistent if $\alpha_i$ is uncorrelated with $\vx_{it}$, i.e.\ $E[\vx_{it} \alpha_{i}] = 0$
 \item However, if $\alpha_i$ and $\vx_{it}$ are uncorrelated, we can construct a more efficient \textbf{random effects} estimator, which exploits that the variance of $\varepsilon_{it}$ is the sum of two unobserved components
 $$
-\text{var}(\varepsilon_{it}) = \sigma_{ \alpha}^{2} + \sigma_{u}^{2}, \quad \sigma_{ \alpha}^{2} = \text{var}( \alpha_i)
+\var[\varepsilon_{it}] = \sigma_{ \alpha}^{2} + \sigma_{u}^{2}, \quad \sigma_{ \alpha}^{2} = \var[\alpha_i]
 $$
 \end{itemize}
 
@@ -382,7 +382,7 @@ There are more general (and better) panel data modeling approaches. Which one we
 \section{Fixed effects (FE) model}
 %%%%%%%%%%%%%%%%%
 
-\sectionframe{2}{Fixed Effects Model}
+\sectionframe{3}{Fixed Effects Model}
 
 \begin{frame}{Setup}
 The FE model is a linear regression, where the intercept varies across individual units:
@@ -392,7 +392,7 @@ $$
 \begin{itemize}
 \item The unobserved heterogeneity is regarded as ``parameters''.
 \item Brute force estimation of $\alpha_{i}$ and $\vbeta$ is not attractive when $N$ is large, because it requires estimation of many parameters.
-\item This also leads to an incidental parameters problem (IPP).
+\item The individual effects are not consistently estimated when $T$ is fixed.
 \item Alternatively, there are transformations of the model that eliminate $\alpha_i$ from the regression equation. The drawback of these approaches is that we cannot estimate coefficients on time-invariant regressors with $\vx_{it} = \bar\vx_i$ (e.g., observed heterogeneity)
 \end{itemize}
 \end{frame}
@@ -420,7 +420,7 @@ $$
 
 \end{frame}
 
-\begin{frame}{Large sample properties of $\hat{ \vbeta}_{\text{FE}}$}
+\begin{frame}{Large sample properties of $\hat\vbeta_{\text{FE}}$}
 
 \begin{itemize}
 \item $\hat\vbeta_{\text{FE}}$ is consistent
@@ -439,7 +439,7 @@ $$
 \sum_{t=1}^T
 (\vx_{it}-\bar\vx_i ) (u_{it}-\bar{u}_i )\right)
 \overset{d}{\longrightarrow}
-N \left(0, \sigma_{u}^{2} Q \right),
+\mathcal{N} \left(0, \sigma_{u}^{2} Q \right),
 \]
 where
 $
@@ -450,9 +450,9 @@ Q = E \left[ \sum_{t=1}^T (\vx_{it}-\bar\vx_i ) (\vx_{it}-\bar\vx_i )'
 $\Rightarrow$
 
 \[
-\sqrt N(\hat\vbeta_{FE}-\vbeta)
+\sqrt N(\hat\vbeta_{\text{FE}}-\vbeta)
 \overset{d}{\longrightarrow}
-N(0, \sigma_{u}^{2} Q^{-1}),
+\mathcal{N}(0, \sigma_{u}^{2} Q^{-1}),
 \]
 
 \end{frame}
@@ -481,8 +481,8 @@ $$
 y_{it} = \vd_i'\valpha + \vx_{it}' \vbeta + u_{it}
 $$
 \vspace*{-\baselineskip}
-\item We estimate the parameters $\valpha$ and $\vbeta$ by OLS. The least squares dummy variables (LSDV) estimator of $\vbeta$ is denoted $\vbeta_{\mathrm{LSDV}}$.
-\item $\vbeta_{\mathrm{LSDV}} = \vbeta_{\mathrm{FE}}$ (by the Frisch–Waugh–Lovell theorem).
+\item We estimate the parameters $\valpha$ and $\vbeta$ by OLS. The least squares dummy variables (LSDV) estimator of $\vbeta$ is denoted $\hat\vbeta_{\mathrm{LSDV}}$.
+\item $\hat\vbeta_{\mathrm{LSDV}} = \hat\vbeta_{\mathrm{FE}}$ (by the Frisch--Waugh--Lovell theorem).
 \item Numerically less appealing, as we need to include many regressors for large $N$ (and end up handling very big matrices).
 \item \textbf{Warning}: To avoid multicollinearity either leave the constant out of $\vx_{it}$ or one of the dummies. 
 \end{itemize}
@@ -492,7 +492,7 @@ $$
 \begin{itemize}
 \item The FE estimator requires the \textbf{strict exogeneity} condition:
 $$
-\E[\vx_{it} u_{is}] = 0 \text{ for all~$s$ and~$t$}
+E[\vx_{it} u_{is}] = 0 \text{ for all~$s$ and~$t$}
 $$
 \item This assumption excludes, in particular, any dependence between $\vx_{it}$ and past values of $y_{it}$
 \end{itemize}
@@ -537,15 +537,15 @@ $$
 $$
 $\Rightarrow$
 \[
-\hat{\vbeta}_{FD}
+\hat\vbeta_{\text{FD}}
 =
 \left(
 \sum_{i=1}^{N}\sum_{t=2}^{T}
-\Delta x_{it}\Delta x_{it}'
+\Delta \vx_{it}\Delta \vx_{it}'
 \right)^{-1}
 \left(
 \sum_{i=1}^{N}\sum_{t=2}^{T}
-\Delta x_{it}\Delta y_{it}
+\Delta \vx_{it}\Delta y_{it}
 \right),
 \]
 
@@ -553,7 +553,7 @@ $\Rightarrow$
 
 \item Normally, there is no intercept in the first-difference regression
 
-\item Consistency of $\hat{\vbeta}_{FD}$ requires \textbf{weak exogeneity}:
+\item Consistency of $\hat\vbeta_{\text{FD}}$ requires \textbf{weak exogeneity}:
 $$
 E[\Delta \vx_{it} \Delta  u_{it}] = 0 \text{ for all $t$}
 $$
@@ -566,10 +566,10 @@ $$
 
 \begin{itemize}
 
-\item The asymptotic distribution of $\hat\vbeta_{FD}$:
+\item The asymptotic distribution of $\hat\vbeta_{\text{FD}}$:
 
 \[
-\sqrt{N}\left(\hat\vbeta_{FD}-\vbeta\right)
+\sqrt{N}\left(\hat\vbeta_{\text{FD}}-\vbeta\right)
 \overset{d}{\to}
 \mathcal{N}\left(0,Q^{-1}\Omega Q^{-1}\right),
 \]
@@ -614,7 +614,7 @@ E\left[
 \section{Random effects (RE) model}
 %%%%%%%%%%%%%%%%%
 
-\sectionframe{3}{Random Effects Model}
+\sectionframe{4}{Random Effects Model}
 
 \begin{frame}{Setup}
 
@@ -650,7 +650,7 @@ u_{it} &\sim\text{i.i.d.}(0,\sigma_u^2)\\
 \item[$\Rightarrow$] Write model as (ignoring constant term or including it in~$\vx_i$)
 $$
 \underbrace{\vy_i}_{T\times 1} = \underbrace{\mX_i'}_{T\times K}\underbrace{\vbeta}_{K\times 1}+\underbrace{\vvarepsilon_i}_{T\times 1}
-\quad \text{with} \quad \E[\vvarepsilon_i] = \vzeros ,
+\quad \text{with} \quad E[\vvarepsilon_i] = \vzeros ,
 \quad \var[\vvarepsilon_i] = \underbrace{\mOmega}_{T\times T}
 $$
 where $\vy_i = (y_{i1},\ldots,y_{iT})'$ and $\mX_i = (\vx_{i1},\ldots,\vx_{iT})$
@@ -673,7 +673,7 @@ $$
 \hat\vbeta_{\text{GLS}} \sim \mathcal{N} \left( \vbeta , \left(\sum_{i=1}^N \mX_i \mOmega^{-1} \mX_i' \right)^{-1}\right)
 $$
 \item[$\Rightarrow$] As usual, this also holds without normality, but then only asymptotically 
-\item[$\Rightarrow$] Follows from standard linear manipulations and by noting that $\E[\sum_{i=1}^N \mX_i \mOmega^{-1} \vvarepsilon_i \vvarepsilon_i' \mOmega^{-1} \mX_i' |\mX] =\sum_{i=1}^N \mX_i \mOmega^{-1} \mX_i'$
+\item[$\Rightarrow$] Follows from standard linear manipulations and by noting that $E[\sum_{i=1}^N \mX_i \mOmega^{-1} \vvarepsilon_i \vvarepsilon_i' \mOmega^{-1} \mX_i' |\mX] =\sum_{i=1}^N \mX_i \mOmega^{-1} \mX_i'$
 \end{enumerate}
 \end{frame}
 
@@ -702,7 +702,7 @@ $$
 \item[$\Rightarrow$] With a ton of algebra, it is possible to show that 
 \begin{align*}
 \hat\vbeta_{\text{GLS}} ={}& \left( \sum_{i=1}^N \sum_{t=1}^T (\vx_{it} -\bar\vx_i )(\vx_{it} -\bar\vx_i )' + \psi T \sum_{i=1}^N (\bar\vx_i - \bar\vx)(\bar\vx_i - \bar\vx)' \right)^{-1} \\
-&\times \left( \sum_{i=1}^N \sum_{t=1}^T (\vx_{it} -\bar\vx_i )(y_{it} -\bar{y}_i )' + \psi T \sum_{i=1}^N (\bar\vx_i - \bar\vx)(\bar{y}_i - \bar{y})' \right) ,
+&\times \left( \sum_{i=1}^N \sum_{t=1}^T (\vx_{it} -\bar\vx_i )(y_{it} -\bar{y}_i ) + \psi T \sum_{i=1}^N (\bar\vx_i - \bar\vx)(\bar{y}_i - \bar{y}) \right) ,
 \end{align*}
 where
 $$
@@ -760,7 +760,7 @@ $$
 \item Under the other hypothesis, $\hat\theta_A$ is inconsistent and $\hat\theta_B$ is consistent
 \item Intuition: $\hat\theta_A$ is efficient under ideal circumstances, but not robust, and $\hat\theta_B$ is robust, but not efficient
 \end{itemize}
-\item[$\Rightarrow$] In the present setup, suppose $\E[u_{it} \vx_{is}] =0$ for all $t$ and $s$, so that:
+\item[$\Rightarrow$] In the present setup, suppose $E[u_{it} \vx_{is}] =0$ for all $t$ and $s$, so that:
 \begin{itemize}
 \item If $\alpha_i$ and $\vx_{it}$ are uncorrelated then both $\hat\vbeta_{\text{FE}}$ and $\hat\vbeta_{\text{RE}}$ are consistent, but $\hat\vbeta_{\text{RE}}$ is more efficient
 \item If $\alpha_i$ and $\vx_{it}$ are correlated then $\hat\vbeta_{\text{RE}}$ is inconsistent while $\hat\vbeta_{\text{FE}}$ is still consistent
@@ -794,7 +794,7 @@ $$
 
 \section{Cluster-robust inference}
 
-\sectionframe{5}{Cluster-Robust Inference}
+\sectionframe{6}{Cluster-Robust Inference}
 
 \begin{frame}{Cluster-Robust Standard Errors}
 \begin{enumerate}
@@ -802,17 +802,17 @@ $$
 \item[$\Rightarrow$] Generalization of White's heteroskedasticity-robust standard errors% (``robust'' in Stata)
 \item[$\Rightarrow$] Non-panel case: suppose data can be divided into $G$ clusters
 $$
-\underbrace{\vy_g}_{N_g \times 1} = \underbrace{\mX_g'}_{N_g \times K} \vbeta + \underbrace{\vu_g}_{N_g \times 1} , \quad g=1, \ldots , G
+\underbrace{\vy_g}_{N_g \times 1} = \underbrace{\mX_g}_{N_g \times K} \vbeta + \underbrace{\vu_g}_{N_g \times 1} , \quad g=1, \ldots , G
 $$
 \vspace*{-0.6\baselineskip}
 \begin{itemize}
 \item The clusters are independent of each other
 \item We make no assumptions about dependence within clusters
 \end{itemize}
-\item[$\Rightarrow$] The variance of OLS estimator $\hat\vbeta = \vbeta_0 + (\mX' \mX )^{-1} \sum_{g=1}^G \mX_g \vu_g$ is $(\mX' \mX )^{-1} \sum_{g=1}^G \mX_g \mOmega_g \mX_g'  (\mX' \mX )^{-1}$, where $\mOmega_g = \var[\vu_g]$
+\item[$\Rightarrow$] The variance of the OLS estimator follows from $\hat\vbeta-\vbeta = (\mX'\mX)^{-1}\sum_{g=1}^G \mX_g'\vu_g$ and is $(\mX'\mX)^{-1}\sum_{g=1}^G \mX_g'\mOmega_g\mX_g(\mX'\mX)^{-1}$, where $\mOmega_g = \var[\vu_g]$
 \item[$\Rightarrow$] The cluster-robust variance estimator (CRVE) is
 $$
-\scalebox{0.9}{$\widehat\var[\hat\vbeta] = (\mX' \mX )^{-1} \displaystyle\sum_{g=1}^G \mX_g \hat\vu_g \hat\vu_g' \mX_g'  (\mX' \mX )^{-1}$}
+\scalebox{0.9}{$\widehat\var[\hat\vbeta] = (\mX'\mX)^{-1} \displaystyle\sum_{g=1}^G \mX_g'\hat\vu_g\hat\vu_g'\mX_g(\mX'\mX)^{-1}$}
 $$
 \vspace*{-0.6\baselineskip}
 \item[$\Rightarrow$] MacKinnon, Nielsen, Webb (2023): ``Cluster-robust inference: A guide to empirical practice'', \emph{Journal of Econometrics}
@@ -823,7 +823,7 @@ $$
 \section{Grunfeld example}
 %%%%%%%%%%%%%%%%%
 
-\sectionframe{6}{Grunfeld Example}
+\sectionframe{7}{Grunfeld Example}
 
 \begin{frame}{Grunfeld (1958) investment equation}
 \begin{enumerate}
