@@ -482,10 +482,15 @@ $$
 
 \begin{frame}{Strict Exogeneity}
 \begin{itemize}
-\item The FE estimator requires the \textbf{strict exogeneity} condition:
+\item The FE estimator requires a \textbf{strict exogeneity} condition. In moment form:
 $$
 E[\vx_{it} u_{is}] = 0 \text{ for all~$s$ and~$t$}
 $$
+\item Sometimes strict exogeneity is defined more strongly as
+$$
+E[u_{it}\mid \vx_{i1},\ldots,\vx_{iT},\alpha_i]=0 \text{ for all~$t$},
+$$
+which implies the moment condition above.
 \item This assumption excludes, in particular, any dependence between $\vx_{it}$ and past values of $y_{it}$
 \end{itemize}
 \end{frame}
