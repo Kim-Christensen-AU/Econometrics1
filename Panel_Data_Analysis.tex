@@ -286,18 +286,18 @@ y_{NT}
 \item The pooled OLS estimator is
 \begin{align*}
 \hat\vbeta_{\mathrm{P}}
-&=
-(\mX'\mX)^{-1}\mX'\vy \\
-&=
-\left(
-\sum_{i=1}^N \sum_{t=1}^T \vx_{it}\vx_{it}'
-\right)^{-1}
-\left(
-\sum_{i=1}^N \sum_{t=1}^T \vx_{it} y_{it}
-\right).
+&= (\mX'\mX)^{-1}\mX'\vy
+= \mA_{\mathrm{P}}^{-1}\vb_{\mathrm{P}},
 \end{align*}
+where
+\[
+\begin{aligned}
+\mA_{\mathrm{P}}&=\sum_{i=1}^N \sum_{t=1}^T \vx_{it}\vx_{it}',\\
+\vb_{\mathrm{P}}&=\sum_{i=1}^N \sum_{t=1}^T \vx_{it} y_{it}.
+\end{aligned}
+\]
 
-\item $\hat\vbeta_{\mathrm{P}}$ is consistent if $\alpha_i$ is uncorrelated with $\vx_{it}$, i.e.\ $E[\vx_{it} \alpha_{i}] = 0$
+\item $\hat\vbeta_{\mathrm{P}}$ is consistent if $\alpha_i$ is uncorrelated with $\vx_{it}$, i.e.\ $E(\vx_{it} \alpha_i) = 0$
 \item However, if $\alpha_i$ and $\vx_{it}$ are uncorrelated, we can construct a more efficient (\textbf{random effects}) estimator, which exploits the particular structure of the variance of $\varepsilon_{it}$:
 $$
 \var(\varepsilon_{it}) = \sigma_{ \alpha}^{2} + \sigma_{u}^{2}, \quad \sigma_{ \alpha}^{2} = \var(\alpha_i)
@@ -358,12 +358,12 @@ There are more general (and better) panel data modeling approaches. Which one we
 \textbf{Fixed effects (FE) model}:
 \begin{itemize}
 \item The $\alpha_i$'s are viewed as fixed unknown parameters
-\item It allows $E[x_{it} \alpha_i] \neq 0$
+\item It allows $E(\vx_{it} \alpha_i) \neq 0$
 \item However, there is a large number of parameters to estimate if the cross-sectional dimension, $N$, is big
 \end{itemize}
 \textbf{Random Effects (RE) model}: 
 \begin{itemize}
-\item $\alpha_i$ is assumed to be random, such that $\alpha_i \sim \text{i.i.d.}(0,\sigma_{\alpha}^2)$ and $ E[x_{it}\alpha_i] = 0$ for each~$i$ and~$t$.
+\item $\alpha_i$ is assumed to be random, such that $\alpha_i \sim \text{i.i.d.}(0,\sigma_{\alpha}^2)$ and $E(\vx_{it}\alpha_i) = 0$ for each~$i$ and~$t$.
 \item So instead of $N$ parameters, there is only one ($\sigma_\alpha^2$) to estimate
 \item This leads to efficient estimates of $\vbeta$ via feasible Generalized Least Squares (FGLS).
 \end{itemize}
@@ -484,11 +484,11 @@ $$
 \begin{itemize}
 \item The FE estimator requires a \textbf{strict exogeneity} condition. In moment form:
 $$
-E[\vx_{it} u_{is}] = 0 \text{ for all~$s$ and~$t$}
+E(\vx_{it} u_{is}) = 0 \text{ for all~$s$ and~$t$}
 $$
 \item Sometimes strict exogeneity is defined more strongly as
 $$
-E[u_{it}\mid \vx_{i1},\ldots,\vx_{iT},\alpha_i]=0 \text{ for all~$t$},
+E(u_{it}\mid \vx_{i1},\ldots,\vx_{iT},\alpha_i)=0 \text{ for all~$t$},
 $$
 which implies the moment condition above.
 \item This assumption excludes, in particular, any dependence between $\vx_{it}$ and past values of $y_{it}$
@@ -510,6 +510,7 @@ $$
 $$
 \hat\vbeta_{\text{B}} = \left(\sum_{i=1}^N (\bar\vx_i - \bar\vx ) (\bar\vx_i - \bar\vx )' \right)^{-1} \sum_{i=1}^N (\bar\vx_i - \bar\vx )(\bar{y}_i - \bar{y} )
 $$
+\item Here, $\bar\vx=N^{-1}\sum_{i=1}^N\bar\vx_i$ and $\bar{y}=N^{-1}\sum_{i=1}^N\bar{y}_i$ are grand means
 \item Consistency assumes strict exogeneity, but it also requires that $\alpha_i$ and $\vx_{it}$ are uncorrelated (a strong assumption)
 \item The last condition is not needed for the FE estimator
 \item In fact, the ``between'' estimator is really only useful in the context of the RE model
@@ -532,14 +533,18 @@ $\Rightarrow$
 \[
 \hat\vbeta_{\text{FD}}
 =
-\left(
-\sum_{i=1}^{N}\sum_{t=2}^{T}
-\Delta \vx_{it}\Delta \vx_{it}'
-\right)^{-1}
-\left(
-\sum_{i=1}^{N}\sum_{t=2}^{T}
-\Delta \vx_{it}\Delta y_{it}
-\right)
+\mA_{\mathrm{FD}}^{-1}\vb_{\mathrm{FD}},
+\]
+where
+\[
+\begin{aligned}
+\mA_{\mathrm{FD}}
+&=\sum_{i=1}^{N}\sum_{t=2}^{T}
+\Delta \vx_{it}\Delta \vx_{it}',\\
+\vb_{\mathrm{FD}}
+&=\sum_{i=1}^{N}\sum_{t=2}^{T}
+\Delta \vx_{it}\Delta y_{it}.
+\end{aligned}
 \]
 
 \item There are only $T-1$ observations in time dimension, since we lose a data point by differencing
@@ -547,7 +552,7 @@ $\Rightarrow$
 \item There is no intercept in the first-difference regression
 
 \item Consistency of $\hat\vbeta_{\text{FD}}$ requires $
-E[\Delta \vx_{it} \Delta  u_{it}] = 0$ for all $t$
+E(\Delta \vx_{it} \Delta u_{it}) = 0$ for all $t$
 
 
 \end{itemize}
@@ -569,10 +574,10 @@ where
 \[
 Q
 =
-E\left[
+E\left(
 \sum_{t=2}^T
 \Delta\vx_{it}\Delta\vx_{it}'
-\right],
+\right),
 \qquad
 \Omega
 =
@@ -634,7 +639,7 @@ u_{it} &\sim\text{i.i.d.}(0,\sigma_u^2) \quad \alpha_i \sim\text{i.i.d.}(0,\sigm
 \item[$\Rightarrow$] Write model as (ignoring constant term or including it in~$\vx_i$)
 $$
 \underbrace{\vy_i}_{T\times 1} = \underbrace{\mX_i'}_{T\times K}\underbrace{\vbeta}_{K\times 1}+\underbrace{\vvarepsilon_i}_{T\times 1}
-\quad \text{with} \quad E[\vvarepsilon_i] = \vzeros ,
+\quad \text{with} \quad E(\vvarepsilon_i) = \vzeros ,
 \quad \var[\vvarepsilon_i] = \underbrace{\mOmega}_{T\times T}
 $$
 where $\vy_i = (y_{i1},\ldots,y_{iT})'$ and $\mX_i = (\vx_{i1},\ldots,\vx_{iT})$
@@ -657,7 +662,7 @@ $$
 \hat\vbeta_{\text{GLS}} \sim \mathcal{N} \left( \vbeta , \left(\sum_{i=1}^N \mX_i \mOmega^{-1} \mX_i' \right)^{-1}\right)
 $$
 \item[$\Rightarrow$] As usual, this also holds without normality, but then only asymptotically 
-\item[$\Rightarrow$] Follows from standard linear manipulations and by noting that $E[\sum_{i=1}^N \mX_i \mOmega^{-1} \vvarepsilon_i \vvarepsilon_i' \mOmega^{-1} \mX_i' |\mX] =\sum_{i=1}^N \mX_i \mOmega^{-1} \mX_i'$
+\item[$\Rightarrow$] Follows from standard linear manipulations and by noting that $E(\sum_{i=1}^N \mX_i \mOmega^{-1} \vvarepsilon_i \vvarepsilon_i' \mOmega^{-1} \mX_i' \mid \mX) =\sum_{i=1}^N \mX_i \mOmega^{-1} \mX_i'$
 \end{enumerate}
 \end{frame}
 
@@ -738,16 +743,16 @@ How to choose between the FE and RE estimators in practice? An appropriate stati
 \end{itemize}
 \item Translation:
 \begin{itemize}
-\item If $E( \alpha_i \vx_{it})=0$, $\hat\vbeta_{\text{FE}}$ and $\hat\vbeta_{\text{RE}}$ are both consistent, but $\hat\vbeta_{\text{RE}}$ is more efficient (asymptotically equivalent to the GLS estimator) than $\hat\vbeta_{\text{FE}}$
-\item If $E( \alpha_i \vx_{it}) \neq0$, $\hat\vbeta_{\text{RE}}$ is inconsistent while $\hat\vbeta_{\text{FE}}$ remains consistent
+\item If $E(\alpha_i \vx_{it})=0$, $\hat\vbeta_{\text{FE}}$ and $\hat\vbeta_{\text{RE}}$ are both consistent, but $\hat\vbeta_{\text{RE}}$ is more efficient (asymptotically equivalent to the GLS estimator) than $\hat\vbeta_{\text{FE}}$
+\item If $E(\alpha_i \vx_{it}) \neq0$, $\hat\vbeta_{\text{RE}}$ is inconsistent while $\hat\vbeta_{\text{FE}}$ remains consistent
 \end{itemize}
 \end{itemize}
-The maintained assumption is that $E[u_{it} \vx_{is}] =0$ for all $t$ and $s$.
+The maintained assumption is that $E(u_{it} \vx_{is}) =0$ for all $t$ and $s$.
 \end{frame}
 
 \begin{frame}{The Hausman Test}
 \begin{itemize}
-\item $\mathcal{H}_{0}: E[\alpha_i \vx_{it}] = 0$ against $\mathcal{H}_{1}: E[\alpha_i \vx_{it}] \neq 0$.
+\item $\mathcal{H}_{0}: E(\alpha_i \vx_{it}) = 0$ against $\mathcal{H}_{1}: E(\alpha_i \vx_{it}) \neq 0$.
 \item The null hypothesis implies that $\plim (\hat\vbeta_{\text{RE}}) = \plim(\hat\vbeta_{\text{FE}}) = \vbeta$, so $\hat\vbeta_{\text{FE}}-\hat\vbeta_{\text{RE}}$ should not be significantly different from zero
 \item Test statistic:
 $$
