@@ -39,7 +39,7 @@ print(summary(re))
 print(hausman)
 
 # --- Helpers --------------------------------------------------
-fmt <- function(x, digits = 4) {
+fmt <- function(x, digits = 3) {
   formatC(x, digits = digits, format = "f")
 }
 
@@ -128,9 +128,6 @@ summary_table <- function(output_file) {
       se_or_blank(re_coef, "c"), " \\\\"),
     "\\midrule",
     paste0("Firm effects & No & Yes & Random \\\\"),
-    paste0("Firms & ", pdim(pdata)$nT$n, " & ", pdim(pdata)$nT$n, " & ", pdim(pdata)$nT$n, " \\\\"),
-    paste0("Years & ", pdim(pdata)$nT$T, " & ", pdim(pdata)$nT$T, " & ", pdim(pdata)$nT$T, " \\\\"),
-    paste0("Observations & ", pdim(pdata)$nT$N, " & ", pdim(pdata)$nT$N, " & ", pdim(pdata)$nT$N, " \\\\"),
     "\\bottomrule",
     "\\end{tabular}%",
     "}",
@@ -146,6 +143,10 @@ hausman_table <- function(output_file) {
   p <- as.numeric(hausman$p.value)
 
   lines <- c(
+    "\\begin{itemize}",
+    "\\item R: phtest(fe, re)",
+    "\\end{itemize}",
+    "",
     "\\begin{center}",
     "\\scriptsize",
     "\\resizebox{0.70\\textwidth}{!}{%",
@@ -153,7 +154,7 @@ hausman_table <- function(output_file) {
     "\\toprule",
     "Test & $\\chi^2$ & df & $P$-value \\\\",
     "\\midrule",
-    paste0("Hausman & ", fmt(stat), " & ", df, " & $", fmt_p(p), "$ \\\\"),
+    paste0("$\\xi_{\\text{H}}$ & ", fmt(stat), " & ", df, " & $", fmt_p(p), "$ \\\\"),
     "\\bottomrule",
     "\\end{tabular}%",
     "}",

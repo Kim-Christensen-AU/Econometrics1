@@ -23,7 +23,7 @@ if (length(file_arg) > 0) {
 }
 
 # --- Load data -----------------------------------------------
-df <- read.csv("Job_training_example.csv")
+df <- read.csv("Job_training.csv")
 
 # --- Define as panel data ------------------------------------
 pdata <- pdata.frame(df, index = c("FCODE", "YEAR"))
@@ -54,7 +54,7 @@ print(summary(re))
 print(hausman)
 
 # --- Helpers --------------------------------------------------
-fmt <- function(x, digits = 4) {
+fmt <- function(x, digits = 3) {
   formatC(x, digits = digits, format = "f")
 }
 
@@ -121,6 +121,10 @@ hausman_table <- function(output_file) {
   p <- as.numeric(hausman$p.value)
 
   lines <- c(
+    "\\begin{itemize}",
+    "\\item R: phtest(fe, re)",
+    "\\end{itemize}",
+    "",
     "\\begin{center}",
     "\\scriptsize",
     "\\resizebox{0.70\\textwidth}{!}{%",
@@ -128,7 +132,7 @@ hausman_table <- function(output_file) {
     "\\toprule",
     "Test & $\\chi^2$ & df & $P$-value \\\\",
     "\\midrule",
-    paste0("Hausman & ", fmt(stat), " & ", df, " & $", fmt_p(p), "$ \\\\"),
+    paste0("$\\xi_{\\text{H}}$ & ", fmt(stat), " & ", df, " & $", fmt_p(p), "$ \\\\"),
     "\\bottomrule",
     "\\end{tabular}%",
     "}",
