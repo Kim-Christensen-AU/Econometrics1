@@ -286,16 +286,16 @@ y_{NT}
 \item The pooled OLS estimator is
 \begin{align*}
 \hat\vbeta_{\mathrm{P}}
-&= (\mX'\mX)^{-1}\mX'\vy
-= \mA_{\mathrm{P}}^{-1}\vb_{\mathrm{P}},
+&=
+(\mX'\mX)^{-1}\mX'\vy \\
+&=
+\left(
+\sum_{i=1}^N \sum_{t=1}^T \vx_{it}\vx_{it}'
+\right)^{-1}
+\left(
+\sum_{i=1}^N \sum_{t=1}^T \vx_{it} y_{it}
+\right).
 \end{align*}
-where
-\[
-\begin{aligned}
-\mA_{\mathrm{P}}&=\sum_{i=1}^N \sum_{t=1}^T \vx_{it}\vx_{it}',\\
-\vb_{\mathrm{P}}&=\sum_{i=1}^N \sum_{t=1}^T \vx_{it} y_{it}.
-\end{aligned}
-\]
 
 \item $\hat\vbeta_{\mathrm{P}}$ is consistent if $\alpha_i$ is uncorrelated with $\vx_{it}$, i.e.\ $E(\vx_{it} \alpha_i) = 0$
 \item However, if $\alpha_i$ and $\vx_{it}$ are uncorrelated, we can construct a more efficient (\textbf{random effects}) estimator, which exploits the particular structure of the variance of $\varepsilon_{it}$:
@@ -533,18 +533,14 @@ $\Rightarrow$
 \[
 \hat\vbeta_{\text{FD}}
 =
-\mA_{\mathrm{FD}}^{-1}\vb_{\mathrm{FD}},
-\]
-where
-\[
-\begin{aligned}
-\mA_{\mathrm{FD}}
-&=\sum_{i=1}^{N}\sum_{t=2}^{T}
-\Delta \vx_{it}\Delta \vx_{it}',\\
-\vb_{\mathrm{FD}}
-&=\sum_{i=1}^{N}\sum_{t=2}^{T}
-\Delta \vx_{it}\Delta y_{it}.
-\end{aligned}
+\left(
+\sum_{i=1}^{N}\sum_{t=2}^{T}
+\Delta \vx_{it}\Delta \vx_{it}'
+\right)^{-1}
+\left(
+\sum_{i=1}^{N}\sum_{t=2}^{T}
+\Delta \vx_{it}\Delta y_{it}
+\right)
 \]
 
 \item There are only $T-1$ observations in time dimension, since we lose a data point by differencing
