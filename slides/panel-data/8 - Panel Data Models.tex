@@ -130,24 +130,9 @@ $$
 \end{frame}
 }
 
-\newcommand{\WN}{\text{WN}}
-\newcommand{\AR}{\text{AR}}
-\newcommand{\MA}{\text{MA}}
-\newcommand{\ARMA}{\text{ARMA}}
-
-\newcommand{\ARCH}{\text{ARCH}}
-\newcommand{\GARCH}{\text{GARCH}}
-
-\newcommand{\ARIMA}{\text{ARIMA}}
-
-\newcommand{\VAR}{\text{VAR}}
-\newcommand{\ARDL}{\text{ARDL}}
-
-
-% Original panel-data slide content prepared by Morten Orregaard Nielsen.
 \author[Kim Christensen]{\textbf{Kim Christensen} \\Aarhus University \\[1ex] \texttt{}}
 
-\title[\scshape Econometrics 1 (Part I)]{\Large Econometric Analysis of Panel Data}
+\title[\scshape Econometrics 1 (Part I)]{\Large Panel Data Analysis}
 
 \subtitle{\bf Econometrics 1}
 
@@ -170,67 +155,39 @@ $$
 \begin{frame}[plain,noframenumbering]{Outline}
 \begin{enumerate}
 \item[] \text{\large \textcolor{brightmaroon}{\bf 1. Introduction}}
-\item[] \text{\large \textcolor{brightmaroon}{\bf 2. Fixed Effects Model}}
-\item[] \text{\large \textcolor{brightmaroon}{\bf 3. Random Effects Model}}
-\item[] \text{\large \textcolor{brightmaroon}{\bf 4. FE or RE? The Hausman Test}}
-\item[] \text{\large \textcolor{brightmaroon}{\bf 5. Cluster-Robust Inference}}
-\item[] \text{\large \textcolor{brightmaroon}{\bf 6. Grunfeld Example}}
+\item[] \text{\large \textcolor{brightmaroon}{\bf 2. Pooled OLS}}
+\item[] \text{\large \textcolor{brightmaroon}{\bf 3. Fixed Effects Model}}
+\item[] \text{\large \textcolor{brightmaroon}{\bf 4. Random Effects Model}}
+\item[] \text{\large \textcolor{brightmaroon}{\bf 5. FE or RE? The Hausman Test}}
+\item[] \text{\large \textcolor{brightmaroon}{\bf 6. Cluster-Robust Inference}}
+\item[] \text{\large \textcolor{brightmaroon}{\bf 7. Grunfeld Example}}
 \end{enumerate}
 \end{frame}
 
-\begin{frame}{Four-Lecture Roadmap}\justifying
-The panel-data material is organized around four 45-minute lectures:
-\begin{enumerate}\justifying
-	\item \alert{Panel structure and pooled OLS}: notation, unobserved heterogeneity, and why pooled OLS may fail.
-	\item \alert{Fixed effects}: the within transformation, least squares dummy variables, between estimation, and first differences.
-	\item \alert{Random effects}: the random-effects assumptions, GLS intuition, feasible GLS, and efficiency.
-	\item \alert{Inference and model choice}: clustered standard errors, the Hausman test, and the Grunfeld application.
-\end{enumerate}
-\end{frame}
-
-
-%%%%%%%%%%%%%
 \section{Introduction}
-%%%%%%%%%%%%%
 
 \sectionframe{1}{Introduction}
 
-\begin{frame}{Learning Objectives}\justifying
-After these lectures, you should be able to:
-\begin{enumerate}\justifying
-	\item Explain what distinguishes panel data from cross-sectional and time-series data.
-	\item Describe why unobserved individual heterogeneity can invalidate pooled OLS.
-	\item Derive and interpret the fixed-effects/within estimator.
-	\item Explain the random-effects model and the role of the GLS transformation.
-	\item Choose between pooled OLS, FE, and RE estimators in applied work.
-	\item Compute and interpret cluster-robust standard errors and the Hausman test.
-\end{enumerate}
+\begin{frame}{Notation}
+A \textbf{panel data set} is a combination of cross-sectional and time-series data. It is denoted
+$$(y_{it}, \vx_{it}')',$$
+for $i=1, \dots,N$ and $t=1,\ldots,T$.
+
+\begin{itemize}
+\item Basically, panel data are repeated observations of cross-sectional (individual) units $i$ that are collected over time $t$. The cross-sectional units can be individuals, firms, countries, ...
+\item The idea is to model the variable of interest $y_{it}$ as a function of the covariates (regressors) $\vx_{it}$
+\item In this lecture, we study \textbf{static} linear panel data models, so $y_{it}$ is a linear function of $\vx_{it}$ (and there are no lagged values of $y_{it}$ in $\vx_{it}$)
+\end{itemize}
 \end{frame}
 
-\begin{frame}{Panel Data: Notation}
-\begin{enumerate}
-\item[$\Rightarrow$] A panel data set is typically denoted $$\{ y_{it}, \underbrace{\vx_{it}}_{K\times 1}, i=1,\ldots,N, t=1,\ldots,T \}$$
-\item[$\Rightarrow$] Repeated observations over the cross-sectional (individual) units~$i$ collected over several time periods~$t$
-\begin{itemize}
-\item Can be achieved, e.g., by surveying a number of cross-sectional units and following them over time
-\item Cross-sectional (individual) units can be people/individuals, banks, firms, countries, etc.
-\end{itemize}
-\item[$\Rightarrow$] Many ways to model the variable of interest $y_{it}$ as a function of covariates/regressors $\vx_{it}$
-\item[$\Rightarrow$] We focus on {\bf static panel data models}, i.e.\ models where $y_{it}$ is a linear function of $\vx_{it}$, and $\vx_{it}$ does not contain lags of $y_{it}$ 
-\begin{itemize}
-\item Roughly Sections~10.1--10.3 in the book.
-\end{itemize}
-\end{enumerate}
-\end{frame}
-
-\begin{frame}{Panel Data: Data Structure}
+\begin{frame}{Data structure}
 \centering
 \renewcommand{\arraystretch}{1.35}
 \setlength{\tabcolsep}{0.65em}
 \resizebox{0.95\textwidth}{!}{%
 \begin{tabular}{c|cccc}
- & \multicolumn{4}{c}{\bf Time} \\
-{\bf Cross-section} & $t=1$ & $t=2$ & $\cdots$ & $t=T$ \\
+ & \multicolumn{4}{c}{Time} \\
+{Cross-section} & $t=1$ & $t=2$ & $\cdots$ & $t=T$ \\
 \hline
 $i=1$ & $(y_{11},\vx_{11}')$ & $(y_{12},\vx_{12}')$ & $\cdots$ & $(y_{1T},\vx_{1T}')$ \\
 $i=2$ & $(y_{21},\vx_{21}')$ & $(y_{22},\vx_{22}')$ & $\cdots$ & $(y_{2T},\vx_{2T}')$ \\
@@ -241,8 +198,8 @@ $i=N$ & $(y_{N1},\vx_{N1}')$ & $(y_{N2},\vx_{N2}')$ & $\cdots$ & $(y_{NT},\vx_{N
 
 \vspace{0.4cm}
 \begin{itemize}
-\item Each cell contains the outcome and regressors observed for unit $i$ at time $t$.
-\item A balanced panel observes all $N$ units in all $T$ periods.
+\item Cell $(i,t)$ has the outcome and regressors for unit $i$ at time $t$.
+\item There are no missing data (a balanced panel)
 \end{itemize}
 \end{frame}
 
@@ -253,9 +210,8 @@ $i=N$ & $(y_{N1},\vx_{N1}')$ & $(y_{N2},\vx_{N2}')$ & $\cdots$ & $(y_{NT},\vx_{N
 \item The Panel Study of Income Dynamics (PSID): a survey containing a large set of individuals with main focus on economic and demographic issues of families
 \item The National Longitudinal Surveys (NLS): collects information on labor market activities of several groups of men and women
 \item The Penn World Table (PWT): collects purchasing power parity and national income accounts for numerous countries
-\item The World Development Indicators (WDI)
-\item Data sources by IMF
-\item Etc, etc.
+\item The Danish National Centre for Register-based Research (based at our department)
+\item ...
 \end{itemize}
 \end{enumerate}
 \end{frame}
@@ -282,40 +238,86 @@ $i=N$ & $(y_{N1},\vx_{N1}')$ & $(y_{N2},\vx_{N2}')$ & $\cdots$ & $(y_{NT},\vx_{N
 \end{enumerate}
 \end{frame}
 
-\begin{frame}{A Standard Linear Static Panel Data Model}
+\begin{frame}{The linear panel data model}
+The linear panel data model is given by
+$$
+y_{it} = \alpha_i+\vx_{it}'\vbeta+u_{it}, \quad
+u_{it} \sim \text{i.i.d.}(0,\sigma_u^2)
+$$
+for $i=1,\ldots,N$ and $t=1,\ldots,T$.
 \begin{itemize}
-\item[$\Rightarrow$] Basic panel data model for $i=1,\ldots,N$ and $t=1,\ldots,T$,
-\begin{align*}
-y_{it} &= \alpha_i+\vx_{it}'\vbeta+u_{it}\\
-u_{it} &\sim \text{i.i.d.}(0,\sigma_u^2)
-\end{align*}
-\item $\vx_{it}$: $K\times 1$ vector of explanatory variables that typically includes~$1$
+\item $\vx_{it}$: $K\times 1$ vector of explanatory variables (typically includes a constant, but not always)
 \item $\vbeta$: $K\times 1$ vector of slope coefficients
-\item $\alpha_i$: unobserved and time-invariant heterogeneity/characteristics
-\begin{itemize}
-\item Accounts for any unobserved characteristics that are not included in the regression, but are time-invariant (so specific to $i$, but not changing across $t$)
+\item $\alpha_i$: unobserved heterogeneity
+\item $u_{it}$: error term (independent of $\alpha_i$ and $\vx_{it}$ for all $i$ and  $t$)
 \end{itemize}
-\item $u_{it}$: disturbance/error term; independent of $\alpha_i$ and $\vx_{it}$ for all~$i$ and all~$t$
-\item $\sigma_u^2$ is variance of~$u_{it}$
-\end{itemize}
+The random variable $\alpha_{i}$ accounts for any unobserved heterogeneity that is not included in the regression, but that is time-invariant (so it belongs to unit $i$ and it does not change across $t$)
 \end{frame}
 
-\begin{frame}{Pooled OLS and the Composite Error}
-\begin{enumerate}
-\item[$\Rightarrow$] Estimation and modeling approach depends on the economic context
-\item[$\Rightarrow$] Since $\alpha_i$ is not observable, it is an important modeling decision to decide how to deal with it; could be informed by economic context
-\item[$\Rightarrow$] Simple idea: Treat $\alpha_i+u_{it}$ as a composite error term and apply OLS to estimate the parameter $\vbeta$ by considering the regression
+\section{Pooled OLS}
+
+\sectionframe{2}{The Pooled OLS estimator}
+
+
+\begin{frame}{Pooled OLS}
+Consider the panel model
+\[
+y_{it} = \alpha_i + \vx_{it}'\vbeta + u_{it},
+\qquad i=1,\dots,N,\quad t=1,\dots,T.
+\]
+\begin{itemize}
+\item Since $\alpha_i$ is not observed, an important modeling decision is how to deal with it?
+
+\item A naive approach is to absorb $\alpha_{i}$ into a ``composite'' error term and apply OLS to estimate $\vbeta$ from the regression
 $$
 y_{it} = \vx_{it}'\vbeta + \varepsilon_{it}
 $$
-\begin{itemize}
-\item This is known as {\bf Pooled OLS}
-\item Note that the error has the form $\varepsilon_{it} = \alpha_i + u_{it}$
-\item Pooled OLS estimator $\hat\vbeta$ will be inconsistent if, for instance, $\alpha_i$ is correlated with $\vx_{it}$, i.e.\ $\E[\vx_{it} \varepsilon_{it}] \neq 0$
-\item If $\alpha_i$ and $\vx_{it}$ are uncorrelated then the variance of $
-\varepsilon_{it}$ can be estimated accordingly as a sum of two unobserved components (but we can do even better - GLS)
+where $\varepsilon_{it} = \alpha_i + u_{it}$
+
+\item This is called Pooled OLS: It ignores the individual effects structure and views all observations as comprising one large cross-section.
 \end{itemize}
-\end{enumerate}
+\end{frame}
+
+\begin{frame}{The Pooled OLS estimator}
+\begin{itemize}
+\item Stack observations as
+\[
+\vy =
+\begin{pmatrix}
+y_{11}\\
+\vdots\\
+y_{NT}
+\end{pmatrix},
+\qquad
+\mX =
+\begin{pmatrix}
+\vx_{11}'\\
+\vdots\\
+\vx_{NT}'
+\end{pmatrix}.
+\]
+
+\item The pooled OLS estimator is
+\begin{align*}
+\hat{ \vbeta}_{\mathrm{P}}
+&=
+(\mX'\mX)^{-1}\mX'\vy \\
+&=
+\left(
+\sum_{i=1}^N \sum_{t=1}^T \vx_{it}\vx_{it}'
+\right)^{-1}
+\left(
+\sum_{i=1}^N \sum_{t=1}^T \vx_{it} \vy_{it}
+\right).
+\end{align*}
+
+\item $\hat\vbeta_{\mathrm{P}}$ is consistent if $\alpha_i$ is uncorrelated with $\vx_{it}$, i.e.\ $\E[\vx_{it} \alpha_{i}] = 0$
+\item However, if $\alpha_i$ and $\vx_{it}$ are uncorrelated, we can construct a more efficient \textbf{random effects} estimator, which exploits that the variance of $\varepsilon_{it}$ is the sum of two unobserved components
+$$
+\text{var}(\varepsilon_{it}) = \sigma_{ \alpha}^{2} + \sigma_{u}^{2}, \quad \sigma_{ \alpha}^{2} = \text{var}( \alpha_i)
+$$
+\end{itemize}
+
 \end{frame}
 
 \begin{frame}{Running Example: Job Training and Firm Productivity}
@@ -340,29 +342,6 @@ $$
 \end{figure}
 \end{frame}
 
-\begin{frame}{Fixed Effects vs. Random Effects}
-\begin{enumerate}
-\item[$\Rightarrow$] There are two modeling approaches based on the assumptions on~$\alpha_i$ and their interactions with~$\vx_{it}$
-\item[$\Rightarrow$] {\bf Fixed effects model}:
-\begin{itemize}
-\item $\{ \alpha_i , i=1, \dots ,N \}$ are treated as fixed unknown parameters to be estimated
-\item Consequently we have to deal with large number of parameters if $N$ is large
-\item Allows $\E[x_{it} \alpha_i] \neq 0$ for some or all~$i$ and~$t$
-\end{itemize}
-\item[$\Rightarrow$] {\bf Random effects model}: 
-\begin{itemize}
-\item $\{ \alpha_i , i=1, \dots ,N \}$ are random
-\item Assume, for each~$i$ and~$t$,
-$$
-\alpha_i \sim \text{i.i.d.}(0,\sigma_{\alpha}^2),\quad \E[x_{it}\alpha_i] = 0
-$$
-\item Instead of $N$ parameters there is only one ($\sigma_\alpha^2$)
-\item Not always easy/possible to defend this assumption in practice 
-\item Feasible generalized least squares leads to efficient estimates~$\hat\vbeta$
-\end{itemize}
-\end{enumerate}
-\end{frame}
-
 \begin{frame}{When Individual Effects Are Correlated With Regressors}
 \begin{enumerate}
 \item[$\Rightarrow$] Examples of how $\vx_{it}$ may be correlated with $\alpha_i$
@@ -381,6 +360,23 @@ $$
 \end{enumerate}
 \end{frame}
 
+\begin{frame}{Beyond Pooled OLS}
+There are more general (and better) panel data modeling approaches. Which one we should choose depends on the interaction of $\alpha_i$ with $\vx_{it}$
+
+\textbf{Fixed effects (FE) model}:
+\begin{itemize}
+\item The $\alpha_i$'s are viewed as fixed unknown parameters
+\item It allows $E[x_{it} \alpha_i] \neq 0$
+\item However, there is a large number of parameters to estimate if the cross-sectional dimension, $N$, is big
+\end{itemize}
+\textbf{Random Effects (RE) model}: 
+\begin{itemize}
+\item $\alpha_i$ is assumed to be random, such that $\alpha_i \sim \text{i.i.d.}(0,\sigma_{\alpha}^2)$ and $ E[x_{it}\alpha_i] = 0$ for each~$i$ and~$t$.
+\item So instead of $N$ parameters, there is only one ($\sigma_\alpha^2$) to estimate
+\item This leads to efficient estimates of $\vbeta$ via feasible Generalized Least Squares (FGLS).
+\end{itemize}
+\end{frame}
+
 
 %%%%%%%%%%%%%%%%%
 \section{Fixed effects (FE) model}
@@ -388,82 +384,118 @@ $$
 
 \sectionframe{2}{Fixed Effects Model}
 
-\begin{frame}{Fixed Effects: Setup}
-\begin{enumerate}
-\item[$\Rightarrow$] The FE model is a linear model with intercepts that vary across individuals/units ($i$)
+\begin{frame}{Setup}
+The FE model is a linear regression, where the intercept varies across individual units:
 $$
 y_{it} = \alpha_i + \vx_{it}'\vbeta + u_{it}, \quad u_{it}\sim\text{i.i.d.}(0,\sigma_u^2)
 $$
-\item[$\Rightarrow$] $\vx_{it}$ are independent of all $u_{it}$
-\item[$\Rightarrow$] FE model treats unobserved heterogeneity $\alpha_i$ as parameters
-\item[$\Rightarrow$] Direct estimators are less attractive when $N$ is large as it requires estimation of many parameters simultaneously (incidental parameter bias) 
-\item[$\Rightarrow$] Alternatively, there are transformations of the model that eliminate $\alpha_i$ from the regression equation
-\end{enumerate}
+\begin{itemize}
+\item The unobserved heterogeneity is regarded as ``parameters''.
+\item Brute force estimation of $\alpha_{i}$ and $\vbeta$ is not attractive when $N$ is large, because it requires estimation of many parameters.
+\item This also leads to an incidental parameters problem (IPP).
+\item Alternatively, there are transformations of the model that eliminate $\alpha_i$ from the regression equation. The drawback of these approaches is that we cannot estimate coefficients on time-invariant regressors with $\vx_{it} = \bar\vx_i$ (e.g., observed heterogeneity)
+\end{itemize}
 \end{frame}
 
 \begin{frame}{The Within Transformation}
-\begin{enumerate}
-\item[$\Rightarrow$] The {\bf within transformation}:
 \begin{itemize}
-\item Take time-series averages of the FE regression model
-$$
-\frac{1}{T}\sum_{t=1}^T y_{it} = \alpha_i + \frac{1}{T}\sum_{t=1}^T \vx_{it}'\vbeta + \frac{1}{T}\sum_{t=1}^T u_{it}
-\quad \Rightarrow \quad
-\bar{y}_i = \alpha_i + \bar\vx_i' \vbeta + \bar{u}_i
-$$
-\item Calculate deviations from individual means, within model:
+\item Calculate deviations from individual unit means:
 $$
 y_{it}-\bar{y}_i = (\vx_{it}-\bar\vx_i)' \vbeta + (u_{it}-\bar{u}_i )
 $$
+where
+$$
+\frac{1}{T}\sum_{t=1}^T y_{it} = \alpha_i + \frac{1}{T}\sum_{t=1}^T \vx_{it}'\vbeta + \frac{1}{T}\sum_{t=1}^T u_{it}
+\quad \Rightarrow \quad \bar{y}_i = 
+\alpha_i + \bar\vx_i' \vbeta + \bar{u}_i
+$$
 \vspace*{-\baselineskip}
-\item Note: Cannot estimate coefficients on regressors that are constant over time, i.e.\ have $\vx_{it}=\bar\vx_i$
-\end{itemize}
-\item[$\Rightarrow$] The FE or ``within'' estimator is OLS applied to the transformed model, i.e.\
+\item The FE or ``within'' estimator is the OLS estimator:
 $$
 \hat\vbeta_{\text{FE}} = \left(\sum_{i=1}^N \sum_{t=1}^T (\vx_{it}-\bar\vx_i ) (\vx_{it}-\bar\vx_i )' \right)^{-1} \sum_{i=1}^N \sum_{t=1}^T (\vx_{it}-\bar\vx_i )(y_{it}-\bar{y}_i )
 $$
-\item[$\Rightarrow$] The $N$ intercepts are estimated as $\hat\alpha_i = \bar{y}_i - \bar\vx_i' \hat\vbeta_{\text{FE}},i=1,\ldots ,N$
-\end{enumerate}
+
+\item The $N$ intercepts are estimated as $\hat\alpha_i = \bar{y}_i - \bar\vx_i' \hat\vbeta_{\text{FE}},i=1,\ldots ,N$.
+\end{itemize}
+
 \end{frame}
 
-\begin{frame}{Least Squares Dummy Variables}
-\begin{enumerate}
-\item[$\Rightarrow$] Consider the least squares dummy variables (LSDV) estimator: 
+\begin{frame}{Large sample properties of $\hat{ \vbeta}_{\text{FE}}$}
+
 \begin{itemize}
-\item Jointly estimate the parameters $\alpha_1,\ldots, \alpha_N$ and $\vbeta$ by OLS
-\item Define $\valpha = (\alpha_1,\ldots,\alpha_N )'$
-\item Let $\vd_i$ be a vector of size~$N$ with~1 as the $i$-th element and zeros elsewhere 
-\item Write the model as 
+\item $\hat\vbeta_{\text{FE}}$ is consistent
+$$
+\plim_{N \rightarrow \infty}( \hat\vbeta_{\text{FE}}) = \vbeta
+$$
+\vspace*{-\baselineskip}
+\item $T$ is fixed.
+
+
+\item Assume that the cross-sectional units are i.i.d. Then, under standard regularity conditions, the CLT implies that:
+\[
+\frac{1}{\sqrt N}
+\sum_{i=1}^N
+\left(
+\sum_{t=1}^T
+(\vx_{it}-\bar\vx_i ) (u_{it}-\bar{u}_i )\right)
+\overset{d}{\longrightarrow}
+N \left(0, \sigma_{u}^{2} Q \right),
+\]
+where
+$
+Q = E \left[ \sum_{t=1}^T (\vx_{it}-\bar\vx_i ) (\vx_{it}-\bar\vx_i )'
+\right]$.
+\end{itemize}
+
+$\Rightarrow$
+
+\[
+\sqrt N(\hat\vbeta_{FE}-\vbeta)
+\overset{d}{\longrightarrow}
+N(0, \sigma_{u}^{2} Q^{-1}),
+\]
+
+\end{frame}
+
+\begin{frame}{Covariance matrix estimator}
+    
+We estimate the covariance matrix of $\hat\vbeta_{\text{FE}}$ using
+$$
+\widehat\var[\hat\vbeta_{\text{FE}}] = \hat\sigma_u^2 \left( \sum_{i=1}^N \sum_{t=1}^T (\vx_{it} - \bar\vx_i ) (\vx_{it} - \bar\vx_i )' \right)^{-1}
+$$
+where
+\[
+\hat\sigma_u^2 = \frac{1}{N(T-1)} \sum_{i=1}^N \sum_{t=1}^T \hat{u}_{it}^2
+\qquad \text{and} \qquad \hat{u}_{it} = y_{it} - \hat\alpha_i - \vx_{it}' \hat\vbeta_{\text{FE}}
+\]
+
+\end{frame}
+
+\begin{frame}{Least Squares Dummy Variables Estimator}
+\begin{itemize}
+\item An equivalent approach is to conduct a regression with dummy variables based on unit membership.
+\item We define $\valpha = (\alpha_1,\ldots,\alpha_N )'$ and let $\vd_i$ be a vector of size $N$ with 1 as the $i$-th element and zeros elsewhere 
+
+$\Rightarrow$
 $$
 y_{it} = \vd_i'\valpha + \vx_{it}' \vbeta + u_{it}
 $$
-and run OLS to estimate $\valpha,\vbeta$
-\item Numerically less appealing as it includes many regressors (handling very big matrices) 
+\vspace*{-\baselineskip}
+\item We estimate the parameters $\valpha$ and $\vbeta$ by OLS. The least squares dummy variables (LSDV) estimator of $\vbeta$ is denoted $\vbeta_{\mathrm{LSDV}}$.
+\item $\vbeta_{\mathrm{LSDV}} = \vbeta_{\mathrm{FE}}$ (by the Frisch–Waugh–Lovell theorem).
+\item Numerically less appealing, as we need to include many regressors for large $N$ (and end up handling very big matrices).
+\item \textbf{Warning}: To avoid multicollinearity either leave the constant out of $\vx_{it}$ or one of the dummies. 
 \end{itemize}
-\item[$\Rightarrow$] The ``within'' (or FE) method and the LSDV estimator are identical (by the FWL theorem)
-\end{enumerate}
 \end{frame}
 
-\begin{frame}{Strict Exogeneity and FE Inference}
-\begin{enumerate}
-\item[$\Rightarrow$] The FE or within estimator requires the {\bf strict exogeneity condition}:
+\begin{frame}{Strict Exogeneity}
+\begin{itemize}
+\item The FE estimator requires the \textbf{strict exogeneity} condition:
 $$
 \E[\vx_{it} u_{is}] = 0 \text{ for all~$s$ and~$t$}
 $$
-\vspace*{-\baselineskip}
-\item[$\Rightarrow$] This assumption excludes, in particular, any dependence between $\vx_{it}$ and past values of $y_{it}$
-\begin{itemize}
-\item Hard to justify in practice
-\item Example: Suppose we would like to explain labour supply of an individual using years of experience; then this would violate the strict exogeneity assumption because experience depends on the individual's labor history
+\item This assumption excludes, in particular, any dependence between $\vx_{it}$ and past values of $y_{it}$
 \end{itemize}
-\item[$\Rightarrow$] Covariance matrix of $\hat\vbeta_{\text{FE}}$:
-\begin{align*}
-\widehat\var[\hat\vbeta_{\text{FE}}] &= \hat\sigma_u^2 \left( \sum_{i=1}^N \sum_{t=1}^T (\vx_{it} - \bar\vx_i ) (\vx_{it} - \bar\vx_i )' \right)^{-1} \\
-\hat\sigma_u^2 &= \frac{1}{N(T-1)} \sum_{i=1}^N \sum_{t=1}^T \hat{u}_{it}^2
-\quad \text{and} \quad
-\hat{u}_{it} = y_{it} - \hat\alpha_i - \vx_{it}' \hat\vbeta_{\text{FE}}
-\end{align*}
-\end{enumerate}
 \end{frame}
 
 \begin{frame}{Running Example: FE Within Estimator}
@@ -475,59 +507,98 @@ $$
 \end{frame}
 
 \begin{frame}{The Between Estimator}
-\begin{enumerate}
-\item[$\Rightarrow$] A related estimator is the ``between'' estimator obtained by OLS on the time averages, i.e.\ OLS on the regression
+\begin{itemize}
+\item The ``between'' estimator is obtained by running an OLS regression on the time averages, i.e.
 $$
-\bar{y}_i = \beta_0 + \bar\vx_i' \vbeta + \underbrace{\alpha_i + \bar{u}_i}_{\bar\varepsilon_i}
+\bar{y}_i = \bar\vx_i' \vbeta + \underbrace{\alpha_i + \bar{u}_i}_{\bar\varepsilon_i}
 $$
 \vspace*{-\baselineskip}
-\item[$\Rightarrow$] The ``between'' estimator is then
+\item[$\Rightarrow$] The ``between'' estimator is
 $$
 \hat\vbeta_{\text{B}} = \left(\sum_{i=1}^N (\bar\vx_i - \bar\vx ) (\bar\vx_i - \bar\vx )' \right)^{-1} \sum_{i=1}^N (\bar\vx_i - \bar\vx )(\bar{y}_i - \bar{y} )
 $$
-\begin{itemize}
-\item Compare with the ``within''/FE estimator
+\item Consistency assumes strict exogeneity, but it also requires that $\alpha_i$ and $\vx_{it}$ are uncorrelated (a strong assumption)
+\item The last condition is not needed for the FE estimator
+\item In fact, the ``between'' estimator is really only useful in the context of the RE model
 \end{itemize}
-\item[$\Rightarrow$] Requires strict exogeneity, but also that $\alpha_i$ and $\vx_{it}$ are uncorrelated (strong assumptions)
-\begin{itemize}
-\item Last condition is not required by ``within''/FE estimator
-\end{itemize}
-\item[$\Rightarrow$] In fact, the ``between'' estimator is really only useful in the context of the RE model later
-\end{enumerate}
 \end{frame}
 
-\begin{frame}{The First-Difference Estimator}
-\begin{enumerate}
-\item[$\Rightarrow$] The within transformation is not the only way to eliminate $\alpha_i$
-\item[$\Rightarrow$] Recall the FE model:
-$$
-y_{it} = \alpha_i + \vx_{it}' \vbeta + u_{it}, \quad u_{it}\sim\text{i.i.d.}(0,\sigma_u^2)
-$$
-\vspace*{-1.1\baselineskip}
-\item[$\Rightarrow$] The first difference estimator for $\vbeta$:
+\begin{frame}{The First-Difference Estimator: I}
+
+The ``within'' (or ``between'') transformation is not the only way to eliminate $\alpha_i$ from the FE model.
+
 \begin{itemize}
-\item Take first differences,
+\item Write the regression equation
+\[y_{it} = \alpha_i + \vx_{it}' \vbeta + u_{it}
+\]
+in terms of first differences:
 $$
-\hspace*{-1.25cm}
-y_{it}-y_{i,t-1} = (\vx_{it}-\vx_{i,t-1})'\vbeta+(u_{it}-u_{i,t-1})
-\quad \Rightarrow  \quad
 \Delta y_{it} = \Delta \vx_{it}' \vbeta + \Delta u_{it}
 $$
-\vspace*{-1.1\baselineskip}
-\item Estimate by OLS
-\item Only $T-1$ observations in time dimension (lose one observation)
-\item Standard errors of $\hat\vbeta_{\text{FD}}$ need to take into account that $\Delta u_{it}$ has serial correlation by construction
-\item Note: Like FE/within estimator, cannot estimate coefficients on regressors that are constant over time, i.e.\ have $\Delta\vx_{it}=0$
+$\Rightarrow$
+\[
+\hat{\vbeta}_{FD}
+=
+\left(
+\sum_{i=1}^{N}\sum_{t=2}^{T}
+\Delta x_{it}\Delta x_{it}'
+\right)^{-1}
+\left(
+\sum_{i=1}^{N}\sum_{t=2}^{T}
+\Delta x_{it}\Delta y_{it}
+\right),
+\]
+
+\item There are only $T-1$ observations in time dimension, since we lose a data point by differencing
+
+\item Normally, there is no intercept in the first-difference regression
+
+\item Consistency of $\hat{\vbeta}_{FD}$ requires \textbf{weak exogeneity}:
+$$
+E[\Delta \vx_{it} \Delta  u_{it}] = 0 \text{ for all $t$}
+$$
+
 \end{itemize}
-\item[$\Rightarrow$] First difference estimator requires {\bf weak exogeneity condition}:
-$$
-\E[\Delta \vx_{it} \Delta  u_{it}] = 0 \text{ for all $t$}
-$$
-\vspace*{-1.1\baselineskip}
+
+\end{frame}
+
+\begin{frame}{The First-Difference Estimator: II}
+
 \begin{itemize}
-\item Weaker than strict exogeneity required for within estimator
+
+\item The asymptotic distribution of $\hat\vbeta_{FD}$:
+
+\[
+\sqrt{N}\left(\hat\vbeta_{FD}-\vbeta\right)
+\overset{d}{\to}
+\mathcal{N}\left(0,Q^{-1}\Omega Q^{-1}\right),
+\]
+where
+\[
+Q
+=
+E\left[
+\sum_{t=2}^T
+\Delta\vx_{it}\Delta\vx_{it}'
+\right],
+\qquad
+\Omega
+=
+\var\left[
+\sum_{t=2}^T
+\Delta\vx_{it}\Delta u_{it}
+\right].
+\]
+
+\item Standard errors of $\hat\vbeta_{\text{FD}}$ need to take into account that even if $u_{it}\sim i.i.d.(0,\sigma_u^2)$, differencing creates negative serial correlation in  $\Delta u_{it}$, since $\var[\Delta u_{it}] = 2\sigma_u^2$ and $\cov[\Delta u_{it},\Delta u_{i,t-1}] = -\sigma_u^2$ (while $
+\cov[\Delta u_{it},\Delta u_{is}] = 0 \quad\text{if } |t-s|>1$).
+
+\item Thus, in general, $\Omega \neq \sigma_u^2 Q$, and $Q^{-1}\Omega Q^{-1} \neq \sigma_u^2 Q^{-1}$. Therefore, the usual i.i.d. OLS variance formula is incorrect, and we use the sandwich estimator (clustered at the individual level).
+
+\item As for the FE estimator, the FD approach cannot estimate coefficients on regressors that are time-invariant ($\Delta\vx_{it}=0$)
+
 \end{itemize}
-\end{enumerate}
+
 \end{frame}
 
 \begin{frame}{Running Example: First Differences}
@@ -546,9 +617,11 @@ $$
 \sectionframe{3}{Random Effects Model}
 
 \begin{frame}{Setup}
-\begin{enumerate}
-\item[$\Rightarrow$] In the RE model, we explicitly model $\alpha_{i}$ as a random variable (and, hence, include as part of the error term)
-\item[$\Rightarrow$] The RE model is thus
+
+In the RE model, we explicitly model $\alpha_{i}$ as a random variable (and, hence, include as part of the error term)
+
+\begin{itemize}
+\item The RE model is
 \begin{align*}
 y_{it} &= \beta_0 + \vx_{it}' \vbeta + \alpha_i + u_{it}\\
 u_{it} &\sim\text{i.i.d.}(0,\sigma_u^2)\\
@@ -565,7 +638,7 @@ u_{it} &\sim\text{i.i.d.}(0,\sigma_u^2)\\
 \item OLS is not efficient as it does not take advantage of the particular form of the error covariance matrix 
 \end{itemize}
 \item[$\Rightarrow$] For the price of the exogeneity condition we can obtain more efficient estimator
-\end{enumerate}
+\end{itemize}
 \end{frame}
 
 \begin{frame}{Random Effects: GLS Intuition}
@@ -670,36 +743,6 @@ $$
 
 
 %%%%%%%%%%%%%%%%%
-\section{Cluster-robust inference}
-%%%%%%%%%%%%%%%%%
-
-\sectionframe{4}{Cluster-Robust Inference}
-
-\begin{frame}{Cluster-Robust Standard Errors}
-\begin{enumerate}
-\item[$\Rightarrow$] Textbook section 10.2.7 discusses cluster-robust inference
-\item[$\Rightarrow$] Generalization of White's heteroskedasticity-robust standard errors% (``robust'' in Stata)
-\item[$\Rightarrow$] Non-panel case: suppose data can be divided into $G$ clusters
-$$
-\underbrace{\vy_g}_{N_g \times 1} = \underbrace{\mX_g'}_{N_g \times K} \vbeta + \underbrace{\vu_g}_{N_g \times 1} , \quad g=1, \ldots , G
-$$
-\vspace*{-0.6\baselineskip}
-\begin{itemize}
-\item The clusters are independent of each other
-\item We make no assumptions about dependence within clusters
-\end{itemize}
-\item[$\Rightarrow$] The variance of OLS estimator $\hat\vbeta = \vbeta_0 + (\mX' \mX )^{-1} \sum_{g=1}^G \mX_g \vu_g$ is $(\mX' \mX )^{-1} \sum_{g=1}^G \mX_g \mOmega_g \mX_g'  (\mX' \mX )^{-1}$, where $\mOmega_g = \var[\vu_g]$
-\item[$\Rightarrow$] The cluster-robust variance estimator (CRVE) is
-$$
-\scalebox{0.9}{$\widehat\var[\hat\vbeta] = (\mX' \mX )^{-1} \displaystyle\sum_{g=1}^G \mX_g \hat\vu_g \hat\vu_g' \mX_g'  (\mX' \mX )^{-1}$}
-$$
-\vspace*{-0.6\baselineskip}
-\item[$\Rightarrow$] MacKinnon, Nielsen, Webb (2023): ``Cluster-robust inference: A guide to empirical practice'', \emph{Journal of Econometrics}
-\end{enumerate}
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%
 \section{FE or RE? The Hausman test}
 %%%%%%%%%%%%%%%%%
 
@@ -747,6 +790,33 @@ $$
 \hspace*{-1.5cm}
 \includegraphics[width=\textwidth]{hh6.pdf}
 \end{figure}
+\end{frame}
+
+\section{Cluster-robust inference}
+
+\sectionframe{5}{Cluster-Robust Inference}
+
+\begin{frame}{Cluster-Robust Standard Errors}
+\begin{enumerate}
+\item[$\Rightarrow$] Textbook section 10.2.7 discusses cluster-robust inference
+\item[$\Rightarrow$] Generalization of White's heteroskedasticity-robust standard errors% (``robust'' in Stata)
+\item[$\Rightarrow$] Non-panel case: suppose data can be divided into $G$ clusters
+$$
+\underbrace{\vy_g}_{N_g \times 1} = \underbrace{\mX_g'}_{N_g \times K} \vbeta + \underbrace{\vu_g}_{N_g \times 1} , \quad g=1, \ldots , G
+$$
+\vspace*{-0.6\baselineskip}
+\begin{itemize}
+\item The clusters are independent of each other
+\item We make no assumptions about dependence within clusters
+\end{itemize}
+\item[$\Rightarrow$] The variance of OLS estimator $\hat\vbeta = \vbeta_0 + (\mX' \mX )^{-1} \sum_{g=1}^G \mX_g \vu_g$ is $(\mX' \mX )^{-1} \sum_{g=1}^G \mX_g \mOmega_g \mX_g'  (\mX' \mX )^{-1}$, where $\mOmega_g = \var[\vu_g]$
+\item[$\Rightarrow$] The cluster-robust variance estimator (CRVE) is
+$$
+\scalebox{0.9}{$\widehat\var[\hat\vbeta] = (\mX' \mX )^{-1} \displaystyle\sum_{g=1}^G \mX_g \hat\vu_g \hat\vu_g' \mX_g'  (\mX' \mX )^{-1}$}
+$$
+\vspace*{-0.6\baselineskip}
+\item[$\Rightarrow$] MacKinnon, Nielsen, Webb (2023): ``Cluster-robust inference: A guide to empirical practice'', \emph{Journal of Econometrics}
+\end{enumerate}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%
@@ -821,3 +891,4 @@ $$
 
 \end{document}
 
+%\item Show that $\hat\vbeta_{\text{FD}} = \hat\vbeta_{\text{FE}}$ for $T = 2$.
