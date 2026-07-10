@@ -312,9 +312,9 @@ y_{NT}
 \end{align*}
 
 \item $\hat\vbeta_{\mathrm{P}}$ is consistent if $\alpha_i$ is uncorrelated with $\vx_{it}$, i.e.\ $E[\vx_{it} \alpha_{i}] = 0$
-\item However, if $\alpha_i$ and $\vx_{it}$ are uncorrelated, we can construct a more efficient \textbf{random effects} estimator, which exploits that the variance of $\varepsilon_{it}$ is the sum of two unobserved components
+\item However, if $\alpha_i$ and $\vx_{it}$ are uncorrelated, we can construct a more efficient (\textbf{random effects}) estimator, which exploits the particular structure of the variance of $\varepsilon_{it}$:
 $$
-\var[\varepsilon_{it}] = \sigma_{ \alpha}^{2} + \sigma_{u}^{2}, \quad \sigma_{ \alpha}^{2} = \var[\alpha_i]
+\var(\varepsilon_{it}) = \sigma_{ \alpha}^{2} + \sigma_{u}^{2}, \quad \sigma_{ \alpha}^{2} = \var(\alpha_i)
 $$
 \end{itemize}
 
@@ -465,7 +465,7 @@ $$
 $$
 where
 \[
-\hat\sigma_u^2 = \frac{1}{N(T-1)} \sum_{i=1}^N \sum_{t=1}^T \hat{u}_{it}^2
+\hat\sigma_u^2 = \frac{1}{N(T-1)-K} \sum_{i=1}^N \sum_{t=1}^T \hat{u}_{it}^2
 \qquad \text{and} \qquad \hat{u}_{it} = y_{it} - \hat\alpha_i - \vx_{it}' \hat\vbeta_{\text{FE}}
 \]
 
@@ -593,9 +593,9 @@ E\left[
 \item Standard errors of $\hat\vbeta_{\text{FD}}$ need to take into account that even if $u_{it}\sim i.i.d.(0,\sigma_u^2)$, differencing creates negative serial correlation in  $\Delta u_{it}$, since $\var[\Delta u_{it}] = 2\sigma_u^2$ and $\cov[\Delta u_{it},\Delta u_{i,t-1}] = -\sigma_u^2$ (while $
 \cov[\Delta u_{it},\Delta u_{is}] = 0 \quad\text{if } |t-s|>1$).
 
-\item Thus, in general, $\Omega \neq \sigma_u^2 Q$, and $Q^{-1}\Omega Q^{-1} \neq \sigma_u^2 Q^{-1}$. Therefore, the usual i.i.d. OLS variance formula is incorrect, and we use the sandwich estimator (clustered at the individual level).
+\item Thus, in general, $\Omega \neq \sigma_u^2 Q$ and $Q^{-1}\Omega Q^{-1} \neq \sigma_u^2 Q^{-1}$. Therefore, the usual i.i.d. OLS variance formula is incorrect, and we use the sandwich estimator (clustered at the individual level).
 
-\item As for the FE estimator, the FD approach cannot estimate coefficients on regressors that are time-invariant ($\Delta\vx_{it}=0$)
+\item The FD approach also cannot estimate coefficients on regressors that are time-invariant ($\Delta\vx_{it}=0$)
 
 \end{itemize}
 
@@ -624,20 +624,19 @@ In the RE model, we explicitly model $\alpha_{i}$ as a random variable (and, hen
 \item The RE model is
 \begin{align*}
 y_{it} &= \beta_0 + \vx_{it}' \vbeta + \alpha_i + u_{it}\\
-u_{it} &\sim\text{i.i.d.}(0,\sigma_u^2)\\
-\alpha_i &\sim\text{i.i.d.}(0,\sigma_{\alpha}^2)
+u_{it} &\sim\text{i.i.d.}(0,\sigma_u^2) \quad \alpha_i \sim\text{i.i.d.}(0,\sigma_{\alpha}^2)
 \end{align*}
 \vspace*{-\baselineskip}
 \begin{itemize}
 \item $\alpha_i$ and $u_{it}$ are mutually independent
 \item $\alpha_i$ and $u_{it}$ are independent from $\vx_{js}$ for each~$j$ and~$s$ (even stronger than strict exogeneity)
 \end{itemize}
-\item[$\Rightarrow$] (Pooled) OLS estimator of $\beta_0, \vbeta$ is consistent but:
+\item The Pooled OLS estimator of $\beta_0, \vbeta$ is consistent, but:
 \begin{itemize}
-\item The usual standard errors are wrong (serial correlation in errors induced by $\alpha_i$) 
-\item OLS is not efficient as it does not take advantage of the particular form of the error covariance matrix 
+\item The usual i.i.d. formula for standard errors is wrong (there is serial correlation in $\varepsilon_{it}$ induced by $\alpha_i$) 
+\item OLS is not efficient, because it does not take advantage of the particular structure of the error covariance matrix 
 \end{itemize}
-\item[$\Rightarrow$] For the price of the exogeneity condition we can obtain more efficient estimator
+\item For the price of the exogeneity condition, we can achieve a more efficient estimator
 \end{itemize}
 \end{frame}
 
@@ -691,15 +690,11 @@ $$
 \end{array}
 \right)
 \end{align*}
-\begin{itemize}
-\item[$\Rightarrow$] This matrix has $\sigma^2_\alpha+\sigma_u^2$ on the diagonal and $\sigma_\alpha^2$ elsewhere
-\item[$\Rightarrow$] Of course, $\sigma^2_\alpha$ and $\sigma_u^2$ are unknown in practice
-\end{itemize}
+
 \end{frame}
 
 \begin{frame}{Quasi-Demeaning}
-\begin{enumerate}
-\item[$\Rightarrow$] With a ton of algebra, it is possible to show that 
+With a ton of algebra, it is possible to show that 
 \begin{align*}
 \hat\vbeta_{\text{GLS}} ={}& \left( \sum_{i=1}^N \sum_{t=1}^T (\vx_{it} -\bar\vx_i )(\vx_{it} -\bar\vx_i )' + \psi T \sum_{i=1}^N (\bar\vx_i - \bar\vx)(\bar\vx_i - \bar\vx)' \right)^{-1} \\
 &\times \left( \sum_{i=1}^N \sum_{t=1}^T (\vx_{it} -\bar\vx_i )(y_{it} -\bar{y}_i ) + \psi T \sum_{i=1}^N (\bar\vx_i - \bar\vx)(\bar{y}_i - \bar{y}) \right) ,
@@ -708,9 +703,10 @@ where
 $$
 \psi = \frac{\sigma_u^2}{\sigma_u^2 + T \sigma_\alpha^2}
 $$
-\item[$\Rightarrow$] This is merely an alternative derivation of $\hat\vbeta_{\text{GLS}}$. However, it has a possible computational advantage, since we do not invert a big $T \times T$ matrix.
-\item[$\Rightarrow$] We need to estimate $\sigma^2_\alpha$ and $\sigma_u^2$ for a feasible GLS estimator.
-\end{enumerate}
+
+This is merely an alternative derivation of $\hat\vbeta_{\text{GLS}}$. However, it has a possible computational advantage, since we do not invert a big $T \times T$ matrix.
+
+We need to estimate $\sigma^2_\alpha$ and $\sigma_u^2$ for a feasible GLS estimator.
 \end{frame}
 
 \begin{frame}{Feasible GLS estimator}
@@ -749,39 +745,37 @@ $$
 \sectionframe{5}{FE or RE? The Hausman Test}
 
 \begin{frame}{Intuition}
-\begin{enumerate}
-\item[$\Rightarrow$] It is hard to choose between the FE and RE estimators
-\item[$\Rightarrow$] One criterion can be built upon whether $\alpha_i$ and $\vx_{it}$ are uncorrelated
-\item[$\Rightarrow$] Hausman test is built on this logic 
-\item[$\Rightarrow$] General idea of a Hausman test:
+How to choose between the FE and RE estimators in practice? An appropriate statistical criterion is based on whether $\alpha_i$ and $\vx_{it}$ are uncorrelated, or not. The Hausman test builds on this logic.
+
 \begin{itemize}
-\item Suppose you have two estimators, $\hat\theta_A$ and $\hat\theta_B$
-\item Under one hypothesis, both $\hat\theta_A$ and $\hat\theta_B$ are consistent, but $\hat\theta_A$ is more efficient than $\hat\theta_B$
-\item Under the other hypothesis, $\hat\theta_A$ is inconsistent and $\hat\theta_B$ is consistent
-\item Intuition: $\hat\theta_A$ is efficient under ideal circumstances, but not robust, and $\hat\theta_B$ is robust, but not efficient
-\end{itemize}
-\item[$\Rightarrow$] In the present setup, suppose $E[u_{it} \vx_{is}] =0$ for all $t$ and $s$, so that:
+\item As noted in the Instrumental Variables lecture, the general principle of a Hausman test is to compare two estimators $\hat\theta_A$ and $\hat\theta_B$.
 \begin{itemize}
-\item If $\alpha_i$ and $\vx_{it}$ are uncorrelated then both $\hat\vbeta_{\text{FE}}$ and $\hat\vbeta_{\text{RE}}$ are consistent, but $\hat\vbeta_{\text{RE}}$ is more efficient
-\item If $\alpha_i$ and $\vx_{it}$ are correlated then $\hat\vbeta_{\text{RE}}$ is inconsistent while $\hat\vbeta_{\text{FE}}$ is still consistent
+\item Under the null hypothesis, both $\hat\theta_A$ and $\hat\theta_B$ are consistent, but $\hat\theta_A$ is more efficient, while $\hat\theta_B$ is less efficient
+\item Under the alternative hypothesis, $\hat\theta_A$ is inconsistent, but $\hat\theta_B$ remains consistent
+\item Hence, $\hat\theta_A$ is more efficient under ideal circumstances, but it lacks robustness, while $\hat\theta_B$ is robust, but it lacks efficiency
 \end{itemize}
-\end{enumerate}
+\item Translation:
+\begin{itemize}
+\item If $E( \alpha_i \vx_{it})=0$, $\hat\vbeta_{\text{FE}}$ and $\hat\vbeta_{\text{RE}}$ are both consistent, but $\hat\vbeta_{\text{RE}}$ is more efficient (asymptotically equivalent to the GLS estimator) than $\hat\vbeta_{\text{FE}}$
+\item If $E( \alpha_i \vx_{it}) \neq0$, $\hat\vbeta_{\text{RE}}$ is inconsistent while $\hat\vbeta_{\text{FE}}$ remains consistent
+\end{itemize}
+\end{itemize}
+The maintained assumption is that $E[u_{it} \vx_{is}] =0$ for all $t$ and $s$.
 \end{frame}
 
-\begin{frame}{FE vs.\ RE: Hausman Test Statistic}
-\begin{enumerate}
-\item[$\Rightarrow$] Hausman test formally...
-\item[$\Rightarrow$] Under the null of the test, $\alpha_i$ and $\vx_{it}$ are uncorrelated
-\item[$\Rightarrow$] This implies that both $\hat\vbeta_{\text{RE}}$ and $\hat\vbeta_{\text{FE}}$ are consistent, hence the distance $\hat\vbeta_{\text{FE}}-\hat\vbeta_{\text{RE}}$ must not be significantly different from zero
-\item[$\Rightarrow$] If $\hat\vbeta_{\text{FE}}-\hat\vbeta_{\text{RE}}$ is statistically significantly different from zero, then $\alpha_i$ and $\vx_{it}$ are correlated
-\item[$\Rightarrow$] Test statistic is
+\begin{frame}{The Hausman Test}
+\begin{itemize}
+\item We are testing $\mathcal{H}_{0}: E[\alpha_i \vx_{it}] = 0$ against $\mathcal{H}_{1}: E[\alpha_i \vx_{it}] \neq 0$.
+\item Since the null hypothesis implies that $\plim (\hat\vbeta_{\text{RE}}) = \plim(\hat\vbeta_{\text{FE}}) = \vbeta$, the distance $\hat\vbeta_{\text{FE}}-\hat\vbeta_{\text{RE}}$ cannot be too big (i.e. significantly different from zero)
+\item Test statistic:
 $$
-\xi_{\text{H}} = (\hat\vbeta_{\text{FE}}-\hat\vbeta_{\text{RE}})'\left(\widehat\var[\hat\vbeta_{\text{FE}}]-\widehat\var[\hat\vbeta_{\text{RE}}]\right)^{-1}(\hat\vbeta_{\text{FE}}-\hat\vbeta_{\text{RE}})
+\xi_{\text{H}} = (\hat\vbeta_{\text{FE}}-\hat\vbeta_{\text{RE}})'\left(\widehat\var[\hat\vbeta_{\text{FE}}]-\widehat\var[\hat\vbeta_{\text{RE}}]\right)^{-1}(\hat\vbeta_{\text{FE}}-\hat\vbeta_{\text{RE}}) 
 $$
-\item[$\Rightarrow$] Under the null, $\xi_{\text{H}}\sim\chi^2(K)$ asymptotically, where $\chi^2 (K)$ is a chi-squared distribution with $K$ degrees of freedom
-\item[$\Rightarrow$] Note that we used the curious result that $\var[\hat\vbeta_{\text{FE}}-\hat\vbeta_{\text{RE}}] = \var[\hat\vbeta_{\text{FE}}]-\var[\hat\vbeta_{\text{RE}}]$ under the null
-\item[$\Rightarrow$] If test rejects, then use $\hat\vbeta_{\text{FE}}$, otherwise use $\hat\vbeta_{\text{RE}}$
-\end{enumerate}
+\vspace*{-1.0\baselineskip}
+\item Under the null, $\xi_{\text{H}} \overset{a}{ \sim} \chi^2 (K)$, where $\chi^2 (K)$ is a chi-squared distribution with $K$ degrees of freedom. Under the alternative, $\xi_{\text{H}} \overset{p}{ \longrightarrow} \infty$.
+\item Note that $\var[\hat\vbeta_{\text{FE}}-\hat\vbeta_{\text{RE}}] = \var[\hat\vbeta_{\text{FE}}]-\var[\hat\vbeta_{\text{RE}}]$, since $\hat\vbeta_{\text{RE}}$ is (asymptotically) efficient under the null
+\item If $\hat\vbeta_{\text{FE}}-\hat\vbeta_{\text{RE}}$ is statistically significantly different from zero, we reject the null and conclude that $\alpha_i$ and $\vx_{it}$ are correlated. In that case, we continue with $\hat\vbeta_{\text{FE}}$, otherwise we use $\hat\vbeta_{\text{RE}}$
+\end{itemize}
 \end{frame}
 
 \begin{frame}{Running Example: Hausman Test}
