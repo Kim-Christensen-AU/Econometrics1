@@ -423,7 +423,7 @@ $$
 \item $T$ is fixed.
 
 
-\item Assume that the cross-sectional units are i.i.d. Then, under standard regularity conditions, the CLT implies that:
+\item Assume that the cross-sectional units are i.i.d. Then, under standard regularity conditions, the CLT implies that, as $N \rightarrow \infty$:
 \[
 \frac{1}{\sqrt N}
 \sum_{i=1}^N
@@ -435,7 +435,7 @@ $$
 \]
 where
 $
-Q = E \left[ \sum_{t=1}^T (\vx_{it}-\bar\vx_i ) (\vx_{it}-\bar\vx_i )'
+Q = \plim \left[ \sum_{t=1}^T (\vx_{it}-\bar\vx_i ) (\vx_{it}-\bar\vx_i )'
 \right]$.
 \end{itemize}
 
@@ -444,7 +444,7 @@ $\Rightarrow$
 \[
 \sqrt N(\hat\vbeta_{\text{FE}}-\vbeta)
 \overset{d}{\longrightarrow}
-\mathcal{N}(0, \sigma_{u}^{2} Q^{-1}),
+\mathcal{N}(0, \sigma_{u}^{2} Q^{-1}).
 \]
 
 \end{frame}
@@ -453,7 +453,7 @@ $\Rightarrow$
     
 We estimate the covariance matrix of $\hat\vbeta_{\text{FE}}$ using
 $$
-\widehat\var[\hat\vbeta_{\text{FE}}] = \hat\sigma_u^2 \left( \sum_{i=1}^N \sum_{t=1}^T (\vx_{it} - \bar\vx_i ) (\vx_{it} - \bar\vx_i )' \right)^{-1}
+\widehat\var[\hat\vbeta_{\text{FE}}] = \hat\sigma_u^2 \left( \sum_{i=1}^N \sum_{t=1}^T (\vx_{it} - \bar\vx_i ) (\vx_{it} - \bar\vx_i )' \right)^{-1},
 $$
 where
 \[
@@ -534,18 +534,16 @@ $\Rightarrow$
 \left(
 \sum_{i=1}^{N}\sum_{t=2}^{T}
 \Delta \vx_{it}\Delta y_{it}
-\right),
+\right)
 \]
 
 \item There are only $T-1$ observations in time dimension, since we lose a data point by differencing
 
 \item Normally, there is no intercept in the first-difference regression
 
-\item Consistency of $\hat\vbeta_{\text{FD}}$ requires
-$$
-E[\Delta \vx_{it} \Delta  u_{it}] = 0 \text{ for all $t$}
-\qquad \text{(strict exogeneity is sufficient)}
-$$
+\item Consistency of $\hat\vbeta_{\text{FD}}$ requires $
+E[\Delta \vx_{it} \Delta  u_{it}] = 0$ for all $t$
+
 
 \end{itemize}
 
@@ -683,7 +681,7 @@ With a ton of algebra, it is possible to show that
 \end{align*}
 where
 $$
-\psi = \frac{\sigma_u^2}{\sigma_u^2 + T \sigma_\alpha^2}
+\psi = \frac{\sigma_u^2}{\sigma_u^2 + T \sigma_\alpha^2}.
 $$
 
 This is merely an alternative derivation of $\hat\vbeta_{\text{GLS}}$. However, it has a possible computational advantage, since we do not invert a big $T \times T$ matrix.
@@ -712,7 +710,7 @@ $$
 \end{enumerate}
 \end{frame}
 
-\begin{frame}{Running Example: Random Effects}
+\begin{frame}{Running Example: The RE Estimator}
 \input{files/job_training_re.tex}
 \end{frame}
 
