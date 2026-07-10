@@ -751,14 +751,14 @@ $$
 \vspace*{-1.0\baselineskip}
 \item Under the null, $\xi_{\text{H}} \overset{a}{ \sim} \chi^2 (K)$, where $\chi^2 (K)$ is a chi-squared distribution with $K$ degrees of freedom. Under the alternative, $\xi_{\text{H}} \overset{p}{ \longrightarrow} \infty$.
 \item Note that $\var[\hat\vbeta_{\text{FE}}-\hat\vbeta_{\text{RE}}] = \var[\hat\vbeta_{\text{FE}}]-\var[\hat\vbeta_{\text{RE}}]$, since $\hat\vbeta_{\text{RE}}$ is (asymptotically) efficient under the null
-\item If $\hat\vbeta_{\text{FE}}-\hat\vbeta_{\text{RE}}$ is statistically significantly different from zero, we reject the null and conclude that $\alpha_i$ and $\vx_{it}$ are correlated. In that case, we continue with $\hat\vbeta_{\text{FE}}$, otherwise we use $\hat\vbeta_{\text{RE}}$
+\item Rejecting the null is evidence against the RE restriction, so we continue with $\hat\vbeta_{\text{FE}}$. Failure to reject does not prove RE correct; it only means the data do not contradict the RE assumption, so RE may be used if its maintained assumptions remain substantively credible
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Running Example: Hausman Test}
 \input{files/job_training_hausman.tex}
 \begin{itemize}
-\item The test does not reject the RE assumption at conventional significance levels.
+\item The test does not reject the RE restriction at conventional significance levels; the data therefore do not contradict the RE assumption.
 \end{itemize}
 
 \begin{myremark}{Hausman Test}{}\justifying
@@ -832,7 +832,7 @@ $$
 \begin{frame}{Hausman test}
 \input{files/grunfeld_hausman.tex}
 \begin{itemize}
-\item Conclusion: The test does not reject the RE assumption at conventional significance levels.
+\item Conclusion: The test does not reject the RE restriction at conventional significance levels; the data therefore do not contradict the RE assumption.
 \end{itemize}
 \end{frame}
 
