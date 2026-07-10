@@ -513,7 +513,7 @@ $$
 
 \begin{frame}{The First-Difference Estimator: I}
 
-The ``within'' (or ``between'') transformation is not the only way to eliminate $\alpha_i$ from the FE model.
+The ``within'' transformation is not the only way to eliminate $\alpha_i$ from the FE model.
 
 \begin{itemize}
 \item Write the regression equation
@@ -541,9 +541,10 @@ $\Rightarrow$
 
 \item Normally, there is no intercept in the first-difference regression
 
-\item Consistency of $\hat\vbeta_{\text{FD}}$ requires \textbf{weak exogeneity}:
+\item Consistency of $\hat\vbeta_{\text{FD}}$ requires
 $$
 E[\Delta \vx_{it} \Delta  u_{it}] = 0 \text{ for all $t$}
+\qquad \text{(strict exogeneity is sufficient)}
 $$
 
 \end{itemize}
@@ -589,7 +590,7 @@ E\left[
 
 \end{frame}
 
-\begin{frame}{Running Example: The FE Estimator}
+\begin{frame}{Running Example: The FD Estimator}
 \input{files/job_training_fd.tex}
 \end{frame}
 

@@ -144,7 +144,7 @@ hausman_table <- function(output_file) {
 
   lines <- c(
     "\\begin{itemize}",
-    "\\item R: phtest(fe, re)",
+    "\\item R: \\texttt{phtest(fe, re)}",
     "\\end{itemize}",
     "",
     "\\begin{center}",
@@ -166,7 +166,7 @@ hausman_table <- function(output_file) {
 
 # --- Write LaTeX tables --------------------------------------
 coef_table(pooled, "lm(i $\\sim$ f + c)", "grunfeld_pooled.tex", "$t$")
-coef_table(fe, "plm(..., model = ``within'')", "grunfeld_fe.tex", "$t$")
-coef_table(re, "plm(..., model = ``random'')", "grunfeld_re.tex", "$z$")
+coef_table(fe, "\\texttt{fe <- plm(..., model = ``within'')}", "grunfeld_fe.tex", "$t$")
+coef_table(re, "\\texttt{re <- plm(..., model = ``random'')}", "grunfeld_re.tex", "$z$")
 hausman_table("grunfeld_hausman.tex")
 summary_table("grunfeld_summary.tex")

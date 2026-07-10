@@ -122,7 +122,7 @@ hausman_table <- function(output_file) {
 
   lines <- c(
     "\\begin{itemize}",
-    "\\item R: phtest(fe, re)",
+    "\\item R: \\texttt{phtest(fe, re)}",
     "\\end{itemize}",
     "",
     "\\begin{center}",
@@ -151,7 +151,7 @@ coef_table(
 )
 coef_table(
   fe,
-  "plm(..., model = ``within'')",
+  "\\texttt{fe <- plm(..., model = ``within'')}",
   "job_training_fe.tex",
   "$t$"
 )
@@ -163,7 +163,7 @@ coef_table(
 )
 coef_table(
   re,
-  "plm(..., model = ``random'')",
+  "\\texttt{re <- plm(..., model = ``random'')}",
   "job_training_re.tex",
   "$z$"
 )
